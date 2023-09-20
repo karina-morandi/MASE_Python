@@ -1,0 +1,122 @@
+[
+    {
+        "Name": "Domino",
+        "Gender": "Female",
+        "Eye color": "Blue",
+        "Race": "Human",
+        "Hair color": "Black",
+        "Height": "173",
+        "Publisher": "Marvel Comics",
+        "Skin color": "White",
+        "Alignment": "Good",
+        "Weight": "54"
+    },
+    {
+        "Name": "Gamora",
+        "Gender": "Female",
+        "Eye color": "Yellow",
+        "Race": "Zen-Whoberian",
+        "Hair color": "Black",
+        "Height": "183",
+        "Publisher": "Marvel Comics",
+        "Skin color": "Green",
+        "Alignment": "Good",
+        "Weight": "77"
+    },
+    {
+        "Name": "Mantis",
+        "Gender": "Female",
+        "Eye color": "Green",
+        "Race": "Human-Kree",
+        "Hair color": "Black",
+        "Height": "168",
+        "Publisher": "Marvel Comics",
+        "Skin color": "Green",
+        "Alignment": "Good",
+        "Weight": "52"
+    },
+    {
+        "Name": "Nebula",
+        "Gender": "Female",
+        "Eye color": "Blue",
+        "Race": "Luphomoid",
+        "Hair color": "No Hair",
+        "Height": "185",
+        "Publisher": "Marvel Comics",
+        "Skin color": "Blue",
+        "Alignment": "Bad",
+        "Weight": "83"
+    },
+    {
+        "Name": "Shadow Lass",
+        "Gender": "Female",
+        "Eye color": "Black",
+        "Race": "Talokite",
+        "Hair color": "Black",
+        "Height": "173",
+        "Publisher": "DC Comics",
+        "Skin color": "Blue",
+        "Alignment": "Good",
+        "Weight": "54"
+    },
+    {
+        "Name": "Abe Sapien",
+        "Gender": "Male",
+        "Eye color": "Blue",
+        "Race": "Icthyo Sapien",
+        "Hair color": "No Hair",
+        "Height": "191",
+        "Publisher": "Dark Horse Comics",
+        "Skin color": "Blue",
+        "Alignment": "Good",
+        "Weight": "65"
+    },
+    {
+        "Name": "Abin Sur",
+        "Gender": "Male",
+        "Eye color": "Blue",
+        "Race": "Ungaran",
+        "Hair color": "No Hair",
+        "Height": "185",
+        "Publisher": "DC Comics",
+        "Skin color": "Red",
+        "Alignment": "Good",
+        "Weight": "90"
+    },
+    {
+        "Name": "Apocalypse",
+        "Gender": "Male",
+        "Eye color": "Red",
+        "Race": "Mutant",
+        "Hair color": "Black",
+        "Height": "213",
+        "Publisher": "Marvel Comics",
+        "Skin color": "Grey",
+        "Alignment": "Bad",
+        "Weight": "135"
+    },
+    {
+        "Name": "Azazel",
+        "Gender": "Male",
+        "Eye color": "Yellow",
+        "Race": "Neyaphem",
+        "Hair color": "Black",
+        "Height": "183",
+        "Publisher": "Marvel Comics",
+        "Skin color": "Red",
+        "Alignment": "Bad",
+        "Weight": "67"
+    },
+    {
+        "Name": "Beast",
+        "Gender": "Male",
+        "Eye color": "Blue",
+        "Race": "Mutant",
+        "Hair color": "Blue",
+        "Height": "180",
+        "Publisher": "Marvel Comics",
+        "Skin color": "Blue",
+        "Alignment": "Good",
+        "Weight": "181"
+    }
+]
