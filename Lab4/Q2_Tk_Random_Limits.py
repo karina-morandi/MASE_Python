@@ -9,31 +9,27 @@ root.title("Random Number Generator")
 myfont1 = font.Font(family="Calibri", size=16, weight="normal")
 myfont2 = font.Font(family="Calibri", size=14, weight="normal")
 randVar = IntVar()
-lowerRange = StringVar(value="1")
-upperRange = StringVar(value="100")
+
+lowerRange = StringVar()
+lowerRange.set(1)
+upperRange = StringVar()
+upperRange.set(100)
 
 
-def GenerateRandomNumber():
-    lower = lowerRange.get()
-    upper = upperRange.get()
-
-    # Check if both lower and upper ranges are valid integers
-    try:
-        lower = int(lower)
-        upper = int(upper)
-    except ValueError:
-        tkinter.messagebox.showwarning("Error", "Invalid lower or upper range")
-        return
-
-    # Check if lower is less than or equal to upper
-    if lower > upper:
-        tkinter.messagebox.showerror("Error", "Lower range must be less than or equal to upper range.")
-        return
-
-    return random.randint(lower, upper)
+def GenerateRandomNumber(lw, hg):
+    if lw > hg:
+        tkinter.messagebox.showinfo("Inversion of values",
+                                    "Careful, the lower range must be a lower integer value than the upper range "
+                                    "value \nI have swapped them round for you")
+        lowerRange.set("" + str(hg))
+        upperRange.set("" + str(lw))
+        return random.randint(int(hg), int(lw))
+    else:
+        return random.randint(lw, hg)
 
 
 def main():
+    randVar.set(GenerateRandomNumber(1,100))
     # Code to add widgets will go here...
     # Title label for the GUI
     l1 = tk.Label(root, text="Random Number Generator", font=myfont1)
@@ -52,14 +48,12 @@ def main():
     l3.grid(row=2, column=0, sticky=tk.N + tk.S + tk.E + tk.W)
     e2 = tk.Entry(root, textvariable=lowerRange, font=myfont2)
     e2.grid(row=2, column=1, sticky=tk.W)
-    e2.configure(state="normal")
 
     # Upper Range
     l4 = tk.Label(root, text="Upper Range:", font=myfont2)
     l4.grid(row=3, column=0, sticky=tk.N + tk.S + tk.E + tk.W)
     e3 = tk.Entry(root, textvariable=upperRange, font=myfont2)
     e3.grid(row=3, column=1, sticky=tk.W)
-    e3.configure(state="normal")
 
     # Buttons to generate a new random or close application
     newRand = tk.Button(root, text="Generate New", font=myfont2, command=newRandNum)
@@ -67,13 +61,32 @@ def main():
     closeApp = tk.Button(root, text="Close App", font=myfont2, command=CloseApplication)
     closeApp.grid(row=4, column=1, sticky=tk.N + tk.S + tk.E + tk.W)
 
-    randVar.set(GenerateRandomNumber())
-
     root.mainloop()
 
 
 def newRandNum():
-    randVar.set(GenerateRandomNumber())
+    lower = checkNumeric(lowerRange.get())
+    upper = checkNumeric(upperRange.get())
+
+    # Check if lower is less than or equal to upper
+    if all([lower, upper]) == False:
+        tkinter.messagebox.showwarning("Something is wrong with the inputs, are they numeric?")
+    else:
+        randVar.set(GenerateRandomNumber(int(lowerRange.get()), int(upperRange.get())))
+
+
+def Convert2Numeric(val):
+    return int(val)
+
+
+def checkNumeric(val):
+    # Check if both lower and upper ranges are valid integers
+    try:
+        val = int(val)
+        return val
+    except ValueError:
+        tkinter.messagebox.showwarning("Ooopsie", "Something went wrong with this entry: " + val +
+                                       "\nIt doesn't seem to be an integer")
 
 
 def CloseApplication():
