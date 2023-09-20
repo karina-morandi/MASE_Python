@@ -1,11 +1,10 @@
 import tkinter as tk
-from tkinter import font
+from tkinter import font, ttk
 from tkinter.ttk import Combobox
 from tkinter import filedialog
 import tkinter.messagebox
 import tkinter.simpledialog
 from tkinter import *
-import pylab as plt
 
 
 class AppGUI(tk.Tk):
@@ -20,6 +19,7 @@ class AppGUI(tk.Tk):
         self.firstName = tk.StringVar()
         self.lastName = tk.StringVar()
         self.email = tk.StringVar()
+        self.rating = tk.StringVar()
 
         self.l1 = (tk.Label(master, text="Basic Contact Registration", font=self.ComicF1)
                    .grid(row=0, column=0, columnspan=2, sticky=tk.N + tk.S + tk.E + tk.W))
@@ -34,10 +34,20 @@ class AppGUI(tk.Tk):
         self.lastName_space = (Entry(textvariable=self.lastName, font=self.ComicF3)
                                .grid(row=2, column=1, sticky=tk.W))
 
+        # Email field - add opt button
         self.email_space = (tk.Label(text="Email", font=self.ComicF3)
                                 .grid(row=3, column=0, sticky=tk.N + tk.S + tk.E + tk.W))
         self.email_space = (Entry(textvariable=self.email, font=self.ComicF3)
                             .grid(row=3, column=1, sticky=tk.W))
+
+        # Combobox area
+        # Label
+        self.label = (
+            tk.Label(text="Rating", font=self.ComicF3).grid(row=4, column=0, sticky=tk.N + tk.S + tk.E + tk.W))
+        self.rating_choice = ttk.Combobox(textvariable=self.rating)
+        self.rating_choice.grid(row=4, column=1, sticky=tk.W)
+        self.rating_choice['values'] = [1, 2, 3, 4, 5, 6, 7, 8, 9, 0]
+        self.rating_choice['state'] = 'readonly'
 
         self.close_button = (tk.Button(master, text="Close", command=self.CloseApplication, font=self.ComicF3)
                              .grid(row=17, column=0, columnspan=2, sticky=tk.N + tk.S + tk.E + tk.W))
