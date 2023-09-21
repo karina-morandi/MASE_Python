@@ -2,13 +2,14 @@ import tkinter as tk
 from tkinter import font
 from tkinter.ttk import Combobox
 from tkinter import *
-
-
-# import pylab as plt
+from tkinter import filedialog
+import tkinter.simpledialog
+import tkinter.messagebox
 
 
 class AppGUI(tk.Tk):
     def __init__(self, master, title):
+
         self.master = master
         self.master.title(title)
         self.ComicF1 = font.Font(family="Comic Sans MS", size=16, weight="normal")
@@ -27,16 +28,16 @@ class AppGUI(tk.Tk):
         self.rating.set('3')
 
         self.l1 = (tk.Label(self.master, text="Basic Contact Registration", font=self.ComicF1)
-                   .grid(row=0, column=0, columnspan=2, sticky=tk.N + tk.S + tk.E + tk.W))
+                   .grid(row=0, column=0, columnspan=2, sticky=tk.N + S + E + W))
 
-        self.firstName_space = (tk.Label(self.master, text="First Name", font=self.ComicF2)
+        self.labelFirstName = (tk.Label(self.master, text="First Name", font=self.ComicF2)
                                 .grid(row=1, column=0, sticky=W))
-        self.firstName_space = (tk.Entry(master, textvariable=self.firstName, font=self.ComicF2)
+        self.entryFirstName = (tk.Entry(master, textvariable=self.firstName, font=self.ComicF2)
                                 .grid(row=1, column=1, sticky=W))
 
-        self.lastName_space = (tk.Label(self.master, text="Last Name", font=self.ComicF2)
+        self.labelLastName = (tk.Label(self.master, text="Last Name", font=self.ComicF2)
                                .grid(row=2, column=0, sticky=W))
-        self.lastName_space = (tk.Entry(master, textvariable=self.lastName, font=self.ComicF2)
+        self.entryLastName = (tk.Entry(master, textvariable=self.lastName, font=self.ComicF2)
                                .grid(row=2, column=1, sticky=W))
 
         # Radiobutton group
@@ -48,14 +49,14 @@ class AppGUI(tk.Tk):
         self.rb2.grid(row=3, column=1, sticky=W)
 
         self.labelEmail = (tk.Label(self.master, text="Email: ", font=self.ComicF2).grid(row=4, column=0, sticky=W))
-        self.entryEmail = (
-            tk.Entry(self.master, textvariable=self.email, font=self.ComicF2).grid(row=4, column=1, sticky=W))
+        self.entryEmail = (tk.Entry(self.master, textvariable=self.email, font=self.ComicF2)
+                           .grid(row=4, column=1, sticky=W))
 
         # Combobox area
         # Label
         self.labelRating = (tk.Label(self.master, text="Rating", font=self.ComicF2).grid(row=5, column=0, sticky=W))
         self.rating_choice = Combobox(self.master, textvariable=self.rating, font=self.ComicF2, state="enabled")
-        self.rating_choice.grid(row=4, column=1, sticky=tk.W)
+        self.rating_choice.grid(row=5, column=1, sticky=tk.W)
         self.rating_choice['values'] = ("1", "2", "3", "4", "5", "6", "7", "8", "9", "10")
         self.rating_choice.current(0)
         self.rating_choice.grid(row=5, column=1, sticky=W)
@@ -74,10 +75,10 @@ class AppGUI(tk.Tk):
         self.HelloMsg()
 
     def LoadData(self):
-        name = "Name: \t\t" + self.firstName.get() + "" + self.lastName.get()
+        name = "Name: \t\t"+self.firstName.get()+" "+self.lastName.get()
         contact = " "
         if self.addContact.get() == 1:
-            contact = "Add\t\t" + self.entryEmail.get()
+            contact = "Add\t\t"+self.email.get()
         else:
             contact = "Contact not to be included"
         self.writeToLog(name)
@@ -101,10 +102,10 @@ class AppGUI(tk.Tk):
 
     def UpdateContact(self):
         if int(self.addContact.get()) == 2:
-            self.entryEmail.config(state='DISABLED')
+            self.entryEmail.config(state=DISABLED)
             print(self.addContact.get())
         else:
-            self.entryEmail.config(state='NORMAL')
+            self.entryEmail.config(state=NORMAL)
             print(self.addContact.get())
 
     def CloseApplication(self):
