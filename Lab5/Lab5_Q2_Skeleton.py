@@ -124,5 +124,5 @@ def main():
 
 
 if __name__ == '__main__':
-    # print("Data Analysis & Visualisation\n")
+    print("Data Analysis & Visualisation\n")
     main()
