@@ -59,7 +59,7 @@ def calculateRunTotals(dataF):
     totalTime = runQuery['Time'].sum()
     totalRuns = len(runQuery.index)
     totalDistance = runQuery['Distance'].sum()
-    totalCalories = runQuery['Calories']
+    totalCalories = runQuery['Calories'].sum()
     averageSpeed = runQuery['Speed'].mean()
     print("\nAnalysis for the runs during the week"
           "\nNumber of Runs:\t\t\t\t{0}"
@@ -78,9 +78,9 @@ def calculateWalkTotals(dataF):
     averageSpeed = dataF.loc[dataF['Category'] == 'Walk', 'Speed'].mean()
 
     print("\nAnalysis for the walks during the week"
-          "\nNumber of Walks:\t\t\t\t{0}"
+          "\nNumber of Walks:\t\t\t{0}"
           "\nTotal Distance:\t\t\t\t{1:.2f}klm"
-          "\nTotal Calories Burned:\t{2:.2f}"
+          "\nTotal Calories Burned:\t\t{2:.2f}"
           "\nTotal Running Time:\t\t\t{3:.0f}minutes"
           "\nAverage Speed:\t\t\t\t{4:.2f}klm/hour".format(totalWalks, totalDistance, totalCalories, totalTime,
                                                            averageSpeed))
@@ -103,10 +103,7 @@ def main():
     # load data into a DataFrame object:
     df = pd.DataFrame(data)
     printDF(df)
-    """Important: 
-                Student: Complete each one of the following seperately, 
-                dont move on until each function is working correctly
-    """
+
     df = cleanRestDays(df)
     printDF(df)
 
