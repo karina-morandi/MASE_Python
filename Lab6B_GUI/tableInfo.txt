@@ -1,61 +1,55 @@
 
 
-Print DataFrame Info for table loan
+Print DataFrame Info for table City
 <class 'pandas.core.frame.DataFrame'>
-RangeIndex: 682 entries, 0 to 681
-Data columns (total 7 columns):
- #   Column      Non-Null Count  Dtype  
----  ------      --------------  -----  
- 0   loan_id     682 non-null    int64  
- 1   account_id  682 non-null    int64  
- 2   date        682 non-null    object 
- 3   amount      682 non-null    int64  
- 4   duration    682 non-null    int64  
- 5   payments    682 non-null    float64
- 6   status      682 non-null    object 
-dtypes: float64(1), int64(4), object(2)
-memory usage: 37.4+ KB
+RangeIndex: 4079 entries, 0 to 4078
+Data columns (total 5 columns):
+ #   Column       Non-Null Count  Dtype 
+---  ------       --------------  ----- 
+ 0   ID           4079 non-null   int64 
+ 1   Name         4079 non-null   object
+ 2   CountryCode  4079 non-null   object
+ 3   District     4079 non-null   object
+ 4   Population   4079 non-null   int64 
+dtypes: int64(2), object(3)
+memory usage: 159.5+ KB
 None
 
 
-Print Number of Unique Items in loan
-loan_id       682
-account_id    682
-date          559
-amount        645
-duration        5
-payments      577
-status          4
+Print Number of Unique Items in City
+ID             4079
+Name           4001
+CountryCode     232
+District       1367
+Population     3897
 dtype: int64
 
 
-Print Number of Unique Items in Each Column for table loan
-loan_id       [4959, 4961, 4962, 4967, 4968, 4973, 4986, 498...
-account_id    [2, 19, 25, 37, 38, 67, 97, 103, 105, 110, 132...
-date          [1994-01-05, 1996-04-29, 1997-12-08, 1998-10-1...
-amount        [80952, 30276, 318480, 110736, 165960, 102876,...
-duration                                   [24, 12, 60, 48, 36]
-payments      [3373.0, 2523.0, 5308.0, 2307.0, 6915.0, 8573....
-status                                             [A, B, D, C]
+Print Number of Unique Items in Each Column for table City
+ID             [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14...
+Name           [Kabul, Qandahar, Herat, Mazar-e-Sharif, Amste...
+CountryCode    [AFG, NLD, ANT, ALB, DZA, ASM, AND, AGO, AIA, ...
+District       [Kabol, Qandahar, Herat, Balkh, Noord-Holland,...
+Population     [1780000, 237500, 186800, 127800, 731200, 5933...
 dtype: object
 
 
-Table: loan
-+---+---------+------------+------------+--------+----------+----------+--------+
-|   | loan_id | account_id |    date    | amount | duration | payments | status |
-+---+---------+------------+------------+--------+----------+----------+--------+
-| 0 |  4959   |     2      | 1994-01-05 | 80952  |    24    |  3373.0  |   A    |
-| 1 |  4961   |     19     | 1996-04-29 | 30276  |    12    |  2523.0  |   B    |
-| 2 |  4962   |     25     | 1997-12-08 | 30276  |    12    |  2523.0  |   A    |
-| 3 |  4967   |     37     | 1998-10-14 | 318480 |    60    |  5308.0  |   D    |
-| 4 |  4968   |     38     | 1998-04-19 | 110736 |    48    |  2307.0  |   C    |
-+---+---------+------------+------------+--------+----------+----------+--------+
-+-----+---------+------------+------------+--------+----------+----------+--------+
-|     | loan_id | account_id |    date    | amount | duration | payments | status |
-+-----+---------+------------+------------+--------+----------+----------+--------+
-| 677 |  7294   |   11327    | 1998-09-27 | 39168  |    24    |  1632.0  |   C    |
-| 678 |  7295   |   11328    | 1998-07-18 | 280440 |    60    |  4674.0  |   C    |
-| 679 |  7304   |   11349    | 1995-10-29 | 419880 |    60    |  6998.0  |   C    |
-| 680 |  7305   |   11359    | 1996-08-06 | 54024  |    12    |  4502.0  |   A    |
-| 681 |  7308   |   11362    | 1996-12-27 | 129408 |    24    |  5392.0  |   A    |
-+-----+---------+------------+------------+--------+----------+----------+--------+
+Table: City
++---+----+----------------+-------------+---------------+------------+
+|   | ID |      Name      | CountryCode |   District    | Population |
++---+----+----------------+-------------+---------------+------------+
+| 0 | 1  |     Kabul      |     AFG     |     Kabol     |  1780000   |
+| 1 | 2  |    Qandahar    |     AFG     |   Qandahar    |   237500   |
+| 2 | 3  |     Herat      |     AFG     |     Herat     |   186800   |
+| 3 | 4  | Mazar-e-Sharif |     AFG     |     Balkh     |   127800   |
+| 4 | 5  |   Amsterdam    |     NLD     | Noord-Holland |   731200   |
++---+----+----------------+-------------+---------------+------------+
++------+------+------------+-------------+------------+------------+
+|      |  ID  |    Name    | CountryCode |  District  | Population |
++------+------+------------+-------------+------------+------------+
+| 4074 | 4075 | Khan Yunis |     PSE     | Khan Yunis |   123175   |
+| 4075 | 4076 |   Hebron   |     PSE     |   Hebron   |   119401   |
+| 4076 | 4077 |  Jabaliya  |     PSE     | North Gaza |   113901   |
+| 4077 | 4078 |   Nablus   |     PSE     |   Nablus   |   100231   |
+| 4078 | 4079 |   Rafah    |     PSE     |   Rafah    |   92020    |
++------+------+------------+-------------+------------+------------+
