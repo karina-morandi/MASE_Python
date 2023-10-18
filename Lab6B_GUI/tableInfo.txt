@@ -1,85 +1,52 @@
 
 
-Print DataFrame Info for table Country
+Print DataFrame Info for table client
 <class 'pandas.core.frame.DataFrame'>
-RangeIndex: 239 entries, 0 to 238
-Data columns (total 15 columns):
- #   Column          Non-Null Count  Dtype  
----  ------          --------------  -----  
- 0   Code            239 non-null    object 
- 1   Name            239 non-null    object 
- 2   Continent       239 non-null    object 
- 3   Region          239 non-null    object 
- 4   SurfaceArea     239 non-null    float64
- 5   IndepYear       192 non-null    float64
- 6   Population      239 non-null    int64  
- 7   LifeExpectancy  222 non-null    float64
- 8   GNP             239 non-null    float64
- 9   GNPOld          178 non-null    float64
- 10  LocalName       239 non-null    object 
- 11  GovernmentForm  239 non-null    object 
- 12  HeadOfState     238 non-null    object 
- 13  Capital         232 non-null    float64
- 14  Code2           239 non-null    object 
-dtypes: float64(6), int64(1), object(8)
-memory usage: 28.1+ KB
+RangeIndex: 5369 entries, 0 to 5368
+Data columns (total 4 columns):
+ #   Column       Non-Null Count  Dtype 
+---  ------       --------------  ----- 
+ 0   client_id    5369 non-null   int64 
+ 1   gender       5369 non-null   object
+ 2   birth_date   5369 non-null   object
+ 3   district_id  5369 non-null   int64 
+dtypes: int64(2), object(2)
+memory usage: 167.9+ KB
 None
 
 
-Print Number of Unique Items in Country
-Code              239
-Name              239
-Continent           7
-Region             25
-SurfaceArea       238
-IndepYear          88
-Population        226
-LifeExpectancy    160
-GNP               214
-GNPOld            178
-LocalName         239
-GovernmentForm     35
-HeadOfState       179
-Capital           232
-Code2             239
+Print Number of Unique Items in client
+client_id      5369
+gender            2
+birth_date     4738
+district_id      77
 dtype: int64
 
 
-Print Number of Unique Items in Each Column for table Country
-Code              [ABW, AFG, AGO, AIA, ALB, AND, ANT, ARE, ARG, ...
-Name              [Aruba, Afghanistan, Angola, Anguilla, Albania...
-Continent         [North America, Asia, Africa, Europe, South Am...
-Region            [Caribbean, Southern and Central Asia, Central...
-SurfaceArea       [193.0, 652090.0, 1246700.0, 96.0, 28748.0, 46...
-IndepYear         [nan, 1919.0, 1975.0, 1912.0, 1278.0, 1971.0, ...
-Population        [103000, 22720000, 12878000, 8000, 3401200, 78...
-LifeExpectancy    [78.4, 45.9, 38.3, 76.1, 71.6, 83.5, 74.7, 74....
-GNP               [828.0, 5976.0, 6648.0, 63.2, 3205.0, 1630.0, ...
-GNPOld            [793.0, nan, 7984.0, 2500.0, 36846.0, 323310.0...
-LocalName         [Aruba, Afganistan/Afqanestan, Angola, Anguill...
-GovernmentForm    [Nonmetropolitan Territory of The Netherlands,...
-HeadOfState       [Beatrix, Mohammad Omar, José Eduardo dos Sant...
-Capital           [129.0, 1.0, 56.0, 62.0, 34.0, 55.0, 33.0, 65....
-Code2             [AW, AF, AO, AI, AL, AD, AN, AE, AR, AM, AS, A...
+Print Number of Unique Items in Each Column for table client
+client_id      [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14...
+gender                                                    [F, M]
+birth_date     [1970-12-13, 1945-02-04, 1940-10-09, 1956-12-0...
+district_id    [18, 1, 5, 12, 15, 51, 60, 57, 40, 54, 76, 21,...
 dtype: object
 
 
-Table: Country
-+---+------+-------------+---------------+---------------------------+-------------+-----------+------------+----------------+--------+--------+-----------------------+----------------------------------------------+-------------------------+---------+-------+
-|   | Code |    Name     |   Continent   |          Region           | SurfaceArea | IndepYear | Population | LifeExpectancy |  GNP   | GNPOld |       LocalName       |                GovernmentForm                |       HeadOfState       | Capital | Code2 |
-+---+------+-------------+---------------+---------------------------+-------------+-----------+------------+----------------+--------+--------+-----------------------+----------------------------------------------+-------------------------+---------+-------+
-| 0 | ABW  |    Aruba    | North America |         Caribbean         |    193.0    |    nan    |   103000   |      78.4      | 828.0  | 793.0  |         Aruba         | Nonmetropolitan Territory of The Netherlands |         Beatrix         |  129.0  |  AW   |
-| 1 | AFG  | Afghanistan |     Asia      | Southern and Central Asia |  652090.0   |  1919.0   |  22720000  |      45.9      | 5976.0 |  nan   | Afganistan/Afqanestan |               Islamic Emirate                |      Mohammad Omar      |   1.0   |  AF   |
-| 2 | AGO  |   Angola    |    Africa     |      Central Africa       |  1246700.0  |  1975.0   |  12878000  |      38.3      | 6648.0 | 7984.0 |        Angola         |                   Republic                   | José Eduardo dos Santos |  56.0   |  AO   |
-| 3 | AIA  |  Anguilla   | North America |         Caribbean         |    96.0     |    nan    |    8000    |      76.1      |  63.2  |  nan   |       Anguilla        |        Dependent Territory of the UK         |      Elisabeth II       |  62.0   |  AI   |
-| 4 | ALB  |   Albania   |    Europe     |      Southern Europe      |   28748.0   |  1912.0   |  3401200   |      71.6      | 3205.0 | 2500.0 |       Shqipëria       |                   Republic                   |     Rexhep Mejdani      |  34.0   |  AL   |
-+---+------+-------------+---------------+---------------------------+-------------+-----------+------------+----------------+--------+--------+-----------------------+----------------------------------------------+-------------------------+---------+-------+
-+-----+------+--------------+-----------+-----------------+-------------+-----------+------------+----------------+----------+----------+--------------+------------------+--------------------+---------+-------+
-|     | Code |     Name     | Continent |     Region      | SurfaceArea | IndepYear | Population | LifeExpectancy |   GNP    |  GNPOld  |  LocalName   |  GovernmentForm  |    HeadOfState     | Capital | Code2 |
-+-----+------+--------------+-----------+-----------------+-------------+-----------+------------+----------------+----------+----------+--------------+------------------+--------------------+---------+-------+
-| 234 | YEM  |    Yemen     |   Asia    |   Middle East   |  527968.0   |  1918.0   |  18112000  |      59.8      |  6041.0  |  5729.0  |   Al-Yaman   |     Republic     | Ali Abdallah Salih | 1780.0  |  YE   |
-| 235 | YUG  |  Yugoslavia  |  Europe   | Southern Europe |  102173.0   |  1918.0   |  10640000  |      72.4      | 17000.0  |   nan    | Jugoslavija  | Federal Republic | Vojislav Koštunica | 1792.0  |  YU   |
-| 236 | ZAF  | South Africa |  Africa   | Southern Africa |  1221037.0  |  1910.0   |  40377000  |      51.1      | 116729.0 | 129092.0 | South Africa |     Republic     |    Thabo Mbeki     |  716.0  |  ZA   |
-| 237 | ZMB  |    Zambia    |  Africa   | Eastern Africa  |  752618.0   |  1964.0   |  9169000   |      37.2      |  3377.0  |  3922.0  |    Zambia    |     Republic     | Frederick Chiluba  | 3162.0  |  ZM   |
-| 238 | ZWE  |   Zimbabwe   |  Africa   | Eastern Africa  |  390757.0   |  1980.0   |  11669000  |      37.8      |  5951.0  |  8670.0  |   Zimbabwe   |     Republic     |  Robert G. Mugabe  | 4068.0  |  ZW   |
-+-----+------+--------------+-----------+-----------------+-------------+-----------+------------+----------------+----------+----------+--------------+------------------+--------------------+---------+-------+
+Table: client
++---+-----------+--------+------------+-------------+
+|   | client_id | gender | birth_date | district_id |
++---+-----------+--------+------------+-------------+
+| 0 |     1     |   F    | 1970-12-13 |     18      |
+| 1 |     2     |   M    | 1945-02-04 |      1      |
+| 2 |     3     |   F    | 1940-10-09 |      1      |
+| 3 |     4     |   M    | 1956-12-01 |      5      |
+| 4 |     5     |   F    | 1960-07-03 |      5      |
++---+-----------+--------+------------+-------------+
++------+-----------+--------+------------+-------------+
+|      | client_id | gender | birth_date | district_id |
++------+-----------+--------+------------+-------------+
+| 5364 |   13955   |   F    | 1945-10-30 |      1      |
+| 5365 |   13956   |   M    | 1943-04-06 |      1      |
+| 5366 |   13968   |   M    | 1968-04-13 |     61      |
+| 5367 |   13971   |   F    | 1962-10-19 |     67      |
+| 5368 |   13998   |   F    | 1953-08-12 |     74      |
++------+-----------+--------+------------+-------------+
