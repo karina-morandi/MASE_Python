@@ -1,7 +1,6 @@
 from tkinter import *
 from GUI_Obj import AppGUI
 from SplashScreen import Splash
-import tkinter as tk
 
 def main():
     root = Tk()

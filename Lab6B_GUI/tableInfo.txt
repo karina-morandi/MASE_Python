@@ -1,52 +1,52 @@
 
 
-Print DataFrame Info for table client
+Print DataFrame Info for table card
 <class 'pandas.core.frame.DataFrame'>
-RangeIndex: 5369 entries, 0 to 5368
+RangeIndex: 892 entries, 0 to 891
 Data columns (total 4 columns):
- #   Column       Non-Null Count  Dtype 
----  ------       --------------  ----- 
- 0   client_id    5369 non-null   int64 
- 1   gender       5369 non-null   object
- 2   birth_date   5369 non-null   object
- 3   district_id  5369 non-null   int64 
+ #   Column   Non-Null Count  Dtype 
+---  ------   --------------  ----- 
+ 0   card_id  892 non-null    int64 
+ 1   disp_id  892 non-null    int64 
+ 2   type     892 non-null    object
+ 3   issued   892 non-null    object
 dtypes: int64(2), object(2)
-memory usage: 167.9+ KB
+memory usage: 28.0+ KB
 None
 
 
-Print Number of Unique Items in client
-client_id      5369
-gender            2
-birth_date     4738
-district_id      77
+Print Number of Unique Items in card
+card_id    892
+disp_id    892
+type         3
+issued     607
 dtype: int64
 
 
-Print Number of Unique Items in Each Column for table client
-client_id      [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14...
-gender                                                    [F, M]
-birth_date     [1970-12-13, 1945-02-04, 1940-10-09, 1956-12-0...
-district_id    [18, 1, 5, 12, 15, 51, 60, 57, 40, 54, 76, 21,...
+Print Number of Unique Items in Each Column for table card
+card_id    [1, 2, 3, 4, 5, 7, 8, 9, 10, 11, 12, 13, 14, 1...
+disp_id    [9, 19, 41, 42, 51, 56, 60, 76, 77, 79, 83, 87...
+type                                 [gold, classic, junior]
+issued     [1998-10-16, 1998-03-13, 1995-09-03, 1998-11-2...
 dtype: object
 
 
-Table: client
-+---+-----------+--------+------------+-------------+
-|   | client_id | gender | birth_date | district_id |
-+---+-----------+--------+------------+-------------+
-| 0 |     1     |   F    | 1970-12-13 |     18      |
-| 1 |     2     |   M    | 1945-02-04 |      1      |
-| 2 |     3     |   F    | 1940-10-09 |      1      |
-| 3 |     4     |   M    | 1956-12-01 |      5      |
-| 4 |     5     |   F    | 1960-07-03 |      5      |
-+---+-----------+--------+------------+-------------+
-+------+-----------+--------+------------+-------------+
-|      | client_id | gender | birth_date | district_id |
-+------+-----------+--------+------------+-------------+
-| 5364 |   13955   |   F    | 1945-10-30 |      1      |
-| 5365 |   13956   |   M    | 1943-04-06 |      1      |
-| 5366 |   13968   |   M    | 1968-04-13 |     61      |
-| 5367 |   13971   |   F    | 1962-10-19 |     67      |
-| 5368 |   13998   |   F    | 1953-08-12 |     74      |
-+------+-----------+--------+------------+-------------+
+Table: card
++---+---------+---------+---------+------------+
+|   | card_id | disp_id |  type   |   issued   |
++---+---------+---------+---------+------------+
+| 0 |    1    |    9    |  gold   | 1998-10-16 |
+| 1 |    2    |   19    | classic | 1998-03-13 |
+| 2 |    3    |   41    |  gold   | 1995-09-03 |
+| 3 |    4    |   42    | classic | 1998-11-26 |
+| 4 |    5    |   51    | junior  | 1995-04-24 |
++---+---------+---------+---------+------------+
++-----+---------+---------+---------+------------+
+|     | card_id | disp_id |  type   |   issued   |
++-----+---------+---------+---------+------------+
+| 887 |  1230   |  13312  | classic | 1998-03-08 |
+| 888 |  1233   |  13382  | classic | 1996-07-06 |
+| 889 |  1234   |  13386  | classic | 1997-11-28 |
+| 890 |  1239   |  13442  | junior  | 1998-02-02 |
+| 891 |  1247   |  13660  | classic | 1995-06-13 |
++-----+---------+---------+---------+------------+

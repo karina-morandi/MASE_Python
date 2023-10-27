@@ -1,0 +1,158 @@
+Sample Assessment GoSales
+Inside the Constructor
+The ConnectNow function
+The getConnectionProgress function
+New connection Using:
+Host: relational.fit.cvut.cz
+User: guest
+Password: relational
+Port: 3306
+Database: GOSales
+
+Tables in the database:
+go_1k
+go_daily_sales
+go_methods
+go_products
+go_retailers
+
+
+Using Table
+go_daily_sales
+go_products
+The performEDA function
+
+
+
+******************** go_daily_sales ********************
+
+
+Print DataFrame Info for table go_daily_sales
+<class 'pandas.core.frame.DataFrame'>
+RangeIndex: 149257 entries, 0 to 149256
+Data columns (total 7 columns):
+ #   Column             Non-Null Count   Dtype
+---  ------             --------------   -----
+ 0   Retailer code      149257 non-null  int64
+ 1   Product number     149257 non-null  int64
+ 2   Order method code  149257 non-null  int64
+ 3   Date               149257 non-null  object
+ 4   Quantity           149257 non-null  int64
+ 5   Unit price         149257 non-null  float64
+ 6   Unit sale price    149257 non-null  float64
+dtypes: float64(2), int64(4), object(1)
+memory usage: 8.0+ MB
+None
+
+
+Print Number of Unique Items in go_daily_sales
+Retailer code         289
+Product number        244
+Order method code       7
+Date                  439
+Quantity             2535
+Unit price            195
+Unit sale price       758
+dtype: int64
+
+
+Print Number of Unique Items in Each Column for table go_daily_sales
+Retailer code        [1201, 1205, 1215, 1209, 1216, 1210, 1405, 121...
+Product number       [109110, 112110, 115110, 70240, 71110, 73110, ...
+Order method code                                [4, 3, 2, 6, 5, 7, 1]
+Date                 [2015-01-12, 2015-01-13, 2015-01-15, 2015-02-1...
+Quantity             [648, 799, 755, 70, 28, 3992, 156, 2615, 1913,...
+Unit price           [76.86, 10.64, 10.71, 122.7, 95.62, 12.78, 96....
+Unit sale price      [71.48, 10.21, 10.28, 114.11, 92.75, 11.89, 89...
+dtype: object
+
+
+Table: go_daily_sales
++---+---------------+----------------+-------------------+------------+----------+------------+-----------------+
+|   | Retailer code | Product number | Order method code |    Date    | Quantity | Unit price | Unit sale price |
++---+---------------+----------------+-------------------+------------+----------+------------+-----------------+
+| 0 |     1201      |     109110     |         4         | 2015-01-12 |   648    |   76.86    |      71.48      |
+| 1 |     1201      |     112110     |         4         | 2015-01-12 |   799    |   10.64    |      10.21      |
+| 2 |     1201      |     115110     |         4         | 2015-01-12 |   755    |   10.71    |      10.28      |
+| 3 |     1205      |     70240      |         3         | 2015-01-12 |    70    |   122.7    |     114.11      |
+| 4 |     1205      |     71110      |         3         | 2015-01-12 |    28    |   95.62    |      92.75      |
++---+---------------+----------------+-------------------+------------+----------+------------+-----------------+
++--------+---------------+----------------+-------------------+------------+----------+------------+-----------------+
+|        | Retailer code | Product number | Order method code |    Date    | Quantity | Unit price | Unit sale price |
++--------+---------------+----------------+-------------------+------------+----------+------------+-----------------+
+| 149252 |     1258      |     52110      |         5         | 2018-07-09 |   1011   |    38.0    |      36.48      |
+| 149253 |     1258      |     53110      |         5         | 2018-07-09 |   476    |   39.99    |      25.99      |
+| 149254 |     1258      |     54110      |         5         | 2018-07-09 |   476    |   52.99    |      52.99      |
+| 149255 |     1258      |     55110      |         5         | 2018-07-09 |   476    |    8.0     |       8.0       |
+| 149256 |     1258      |     56110      |         5         | 2018-07-09 |   448    |    18.0    |      18.0       |
++--------+---------------+----------------+-------------------+------------+----------+------------+-----------------+
+The performEDA function
+
+
+
+******************** go_products ********************
+
+
+Print DataFrame Info for table go_products
+<class 'pandas.core.frame.DataFrame'>
+RangeIndex: 274 entries, 0 to 273
+Data columns (total 8 columns):
+ #   Column          Non-Null Count  Dtype
+---  ------          --------------  -----
+ 0   Product number  274 non-null    int64
+ 1   Product line    274 non-null    object
+ 2   Product type    274 non-null    object
+ 3   Product         274 non-null    object
+ 4   Product brand   274 non-null    object
+ 5   Product color   274 non-null    object
+ 6   Unit cost       274 non-null    float64
+ 7   Unit price      274 non-null    float64
+dtypes: float64(2), int64(1), object(5)
+memory usage: 17.3+ KB
+None
+
+
+Print Number of Unique Items in go_products
+Product number    274
+Product line        5
+Product type       21
+Product           144
+Product brand      26
+Product color      23
+Unit cost         255
+Unit price        213
+dtype: int64
+
+
+Print Number of Unique Items in Each Column for table go_products
+Product number    [1110, 2110, 3110, 4110, 5110, 6110, 7110, 811...
+Product line      [Camping Equipment, Mountaineering Equipment, ...
+Product type      [Cooking Gear, Tents, Sleeping Bags, Packs, La...
+Product           [TrailChef Water Bag, TrailChef Canteen, Trail...
+Product brand     [TrailChef, Star, Hibernator, Extreme, Canyon ...
+Product color     [Clear, Brown, Unspecified, Silver, Green, Ash...
+Unit cost         [2.77, 6.92, 15.78, 0.85, 34.41, 78.72, 46.38,...
+Unit price        [6.59, 12.92, 23.8, 3.66, 54.93, 129.72, 66.77...
+dtype: object
+
+
+Table: go_products
++---+----------------+-------------------+--------------+-----------------------+---------------+---------------+-----------+------------+
+|   | Product number |   Product line    | Product type |        Product        | Product brand | Product color | Unit cost | Unit price |
++---+----------------+-------------------+--------------+-----------------------+---------------+---------------+-----------+------------+
+| 0 |      1110      | Camping Equipment | Cooking Gear |  TrailChef Water Bag  |   TrailChef   |     Clear     |   2.77    |    6.59    |
+| 1 |      2110      | Camping Equipment | Cooking Gear |   TrailChef Canteen   |   TrailChef   |     Brown     |   6.92    |   12.92    |
+| 2 |      3110      | Camping Equipment | Cooking Gear | TrailChef Kitchen Kit |   TrailChef   |  Unspecified  |   15.78   |    23.8    |
+| 3 |      4110      | Camping Equipment | Cooking Gear |     TrailChef Cup     |   TrailChef   |    Silver     |   0.85    |    3.66    |
+| 4 |      5110      | Camping Equipment | Cooking Gear |  TrailChef Cook Set   |   TrailChef   |    Silver     |   34.41   |   54.93    |
++---+----------------+-------------------+--------------+-----------------------+---------------+---------------+-----------+------------+
++-----+----------------+----------------------+--------------+---------+---------------+---------------+-----------+------------+
+|     | Product number |     Product line     | Product type | Product | Product brand | Product color | Unit cost | Unit price |
++-----+----------------+----------------------+--------------+---------+---------------+---------------+-----------+------------+
+| 269 |     154110     | Personal Accessories |   Watches    | Kodiak  |    Trakker    |     Blue      |   66.67   |   120.3    |
+| 270 |     154120     | Personal Accessories |   Watches    | Kodiak  |    Trakker    |     Brown     |   67.79   |   122.51   |
+| 271 |     154130     | Personal Accessories |   Watches    | Kodiak  |    Trakker    |     Green     |   66.83   |   120.76   |
+| 272 |     154140     | Personal Accessories |   Watches    | Kodiak  |    Trakker    |    Silver     |   74.11   |   136.2    |
+| 273 |     154150     | Personal Accessories |   Watches    | Kodiak  |    Trakker    |  Camouflage   |   69.08   |   132.77   |
++-----+----------------+----------------------+--------------+---------+---------------+---------------+-----------+------------+
+
