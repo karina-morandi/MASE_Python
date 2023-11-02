@@ -18,8 +18,8 @@ def main():
     relationalDB.analyseTop10QuantitySales()
     # Next Call the function analyseProductByID(5110)
     relationalDB.analyseProductByID(5110)
-    relationalDB.disposeConnection()
     # Last, close the connection and print to the console that the connection is closed
+    relationalDB.disposeConnection()
 
 
 if __name__ == '__main__':
