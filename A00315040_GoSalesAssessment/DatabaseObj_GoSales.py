@@ -19,10 +19,10 @@ class DBConnection:
         self.connectionProgress = None
         self.tableInfo = None
         self.mydb = None
-        # Configure db
         self.go_daily_sales = None
         self.go_products = None
         self.merged_df = None
+        # Configure db
         self.db_config = {
             'host': self.host,
             'user': self.user,
@@ -96,88 +96,83 @@ class DBConnection:
 
     def MergeDataFrame(self):
         print("\n\nMerged Dataframe")
-        products = self.go_products[['Product number', 'Product', 'Unit cost']]
-        self.merged_df = pd.merge(products, self.go_daily_sales[['Product number', 'Date', 'Quantity', 'Unit price', 'Unit sale price']], on = 'Product number', how = 'inner')
-
-        self.merged_df['Total Sales'] = round(self.merged_df['Quantity']*self.merged_df['Unit sale price'],2)
-        self.merged_df['Total Profit'] = round(self.merged_df['Total Sales'] - (self.merged_df['Unit cost'] * self.merged_df['Quantity']),2)
-        print(tabulate(self.merged_df.head(), headers='keys', tablefmt='pretty', showindex=True))
-        print(tabulate(self.merged_df.tail(), headers='keys', tablefmt='pretty', showindex=True))
         # Create a dataframe called products with just the product number, product and unit cost from the go_products table
+        products = self.go_products[['Product number', 'Product', 'Unit cost']]
         # Merge this with the other frames as per the screenshot from the assessment sheet
+        self.merged_df = pd.merge(products, self.go_daily_sales[['Product number', 'Date', 'Quantity', 'Unit price', 'Unit sale price']], on = 'Product number', how = 'inner')
         # Create the necessary calculated columns
         # The total sales is the quantity by the unit sale price
         # The total profit is total sales less  the unit cost  by the quantity
+        self.merged_df['Total Sales'] = round(self.merged_df['Quantity']*self.merged_df['Unit sale price'],2)
+        self.merged_df['Total Profit'] = round(self.merged_df['Total Sales'] - (self.merged_df['Unit cost'] * self.merged_df['Quantity']),2)
         # Print this merged dataframe to the console using printDF function
+        print(tabulate(self.merged_df.head(), headers='keys', tablefmt='pretty', showindex=True))
+        print(tabulate(self.merged_df.tail(), headers='keys', tablefmt='pretty', showindex=True))
 
     def analyseTop10QuantitySales(self):
         print("\n\nThe analyseTop10QuantitySales function")
+        # Create a dataframe called product_sums that is an agg of merged_df based on the
+        # screenshot in the assessment sheet
         product_sums = self.merged_df.groupby('Product').agg({'Product number':'count', 'Unit price':'first', 'Quantity':'sum', 'Total Sales':'sum', 'Total Profit': 'sum'}).reset_index()
         print(tabulate(product_sums.head(), headers='keys', tablefmt='pretty', showindex=True))
+        # Creae a resultset dataframe whic is the result of the 10 nlaregest where the columns are total sales
+        # Order decending
+        # Print this result using tabulate and rename the headers as per the screenshot
         resultset = product_sums.nlargest(n=10, columns='Total Sales').sort_values('Total Sales', ascending=False)
         print(tabulate(resultset, headers=['Product', 'No of Sales', 'Unit Price', 'Quantity Sold', 'Total Sales', 'Total Profit'], floatfmt = '.2f', showindex=True))
-
+        # Next create the plot but first
+        # Wrapping the text for the x-labels
         wrapped_labels = [textwrap.fill(label, 10) for label in resultset['Product']]
         print(wrapped_labels)
-
+        # Create the main window
         root = tk.Tk()
         root.title("GoSales")
-
+        # Create a custom frame to hold the Matplotlib plot
         frame = ttk.Frame(root)
         frame.pack(expand=True, fill=tk.BOTH)
-
+        # Create a Matplotlib figure and subplot
+        # Modify the x and y labels on the axis to ensure nonscientific notation
+        # and that the text is wrapped where it is too long
         fig, ax = plt.subplots(figsize=(12, 8), dpi=100)
         ax.ticklabel_format(axis='y', style='plain')
         ax.set_xticks(range(len(wrapped_labels)))
         ax.set_xticklabels(wrapped_labels)
-
-        ax.bar(resultset['Product'], resultset['Total Sales'], label='Total Sales', color='red')
-        ax.bar(resultset['Product'], resultset['Total Profit'], label='Total Profit', color='blue', bottom=resultset['Total Sales'])
-        ax.set_xlabel('Product')
-        ax.set_ylabel('Amount in €')
-        ax.set_title('Top 10 Products based on Sales and Profit')
-        ax.legend()
-
-        canvas = FigureCanvasTkAgg(fig, master=frame)
-        canvas.get_tk_widget().pack(fill=tk.BOTH, expand=True)
-
-        from matplotlib.backends.backend_tkagg import NavigationToolbar2Tk
-        toolbar = NavigationToolbar2Tk(canvas, frame)
-        canvas.get_tk_widget().pack(fill=tk.BOTH, expand=True)
-        toolbar.update()
-
-        root.mainloop()
-        # Create a dataframe called product_sums that is an agg of merged_df based on the
-        # screenshot in the assessment sheet
-        # Creae a resultset dataframe whic is the result of the 10 nlaregest where the columns are total sales
-        # Order decending
-        # Print this result using tabulate and rename the headers as per the screenshot
-        # Next create the plot but first
-        # Wrapping the text for the x-labels
-        # Create the main window
-        # Create a custom frame to hold the Matplotlib plot
-        # Create a Matplotlib figure and subplot
-        # Modify the x and y labels on the axis to ensure nonscientific notation
-        # and that the text is wrapped where it is too long
         # Plot the two bar charts for the total sales and total product
         # Set the colour for each
         # Set the bottom chart to be the Total Sales as it is a higher value
+        ax.bar(resultset['Product'], resultset['Total Sales'], label='Total Sales', color='red')
+        ax.bar(resultset['Product'], resultset['Total Profit'], label='Total Profit', color='blue', bottom=resultset['Total Sales'])
         # Add the product label to the x-axis
+        ax.set_xlabel('Product')
         # Add the Amount in € label to the y-axis
+        ax.set_ylabel('Amount in €')
         # Set the title of the chart to be Top 10 Products based on Sales and Profit
+        ax.set_title('Top 10 Products based on Sales and Profit')
         # Insert the legend
+        ax.legend()
         # Create a Matplotlib canvas within the frame
+        canvas = FigureCanvasTkAgg(fig, master=frame)
+        canvas.get_tk_widget().pack(fill=tk.BOTH, expand=True)
+        from matplotlib.backends.backend_tkagg import NavigationToolbar2Tk
+        toolbar = NavigationToolbar2Tk(canvas, frame)
+        canvas.get_tk_widget().pack(fill=tk.BOTH, expand=True)
         # Add a toolbar (optional)
+        toolbar.update()
         # Start the Tkinter main loop
+        root.mainloop()
 
     def analyseProductByID(self, prod_ID):
         print("\n\n\nThe analyseProductByID function")
-
+        #Create a resultset form the merged_df based on the prodID
         result = self.merged_df[self.merged_df['Product number']==prod_ID]
+        # Extrapulate the order information into a new dataframe
         orders = result[['Date', 'Quantity', 'Unit sale price', 'Total Sales', 'Total Profit']]
+        # Remove any 0's
         filtered = orders[orders['Unit sale price']!=0]
+        # Calculate and print the totals
         print(tabulate(orders.head(15), headers='keys', tablefmt='pretty', showindex=True))
         print('\n\n\nProduct Info based on ID: {0}\t{1}'.format(prod_ID, result['Product'].iat[0]))
+        # Print the resulting dataframe
         productName = result['Product'].iat[0]
         unitPrice = result['Unit price'].iat[0]
         unitCost = result['Unit cost'].iat[0]
@@ -192,58 +187,42 @@ class DBConnection:
         print('Sales: €{0}'.format(round(total_sales, 2)))
         print('Profit: €{0}'.format(round(total_profit,2)))
         print(tabulate(filtered.head(15), headers='keys', tablefmt='pretty', showindex=True))
-
+        # Next plot the barchart as per the screenshot in the assessment sheet
+        # Create the main window
         root = tk.Tk()
         root.title("GoSales")
-
+        # Create a custom frame to hold the Matplotlib plot
         frame = ttk.Frame(root)
         frame.pack(expand=True, fill=tk.BOTH)
-
+        # Create a Matplotlib figure and subplot
         fig, ax = plt.subplots(figsize=(12, 8), dpi=100)
+        # Modify the x and y labels on the axis to ensure nonscientific notation
+        # and that the text is wrapped where it is too long
         ax.ticklabel_format(axis='y', style='plain')
         #ax.set_xticks(range(len(wrapped_labels)))
-       # ax.set_xticklabels(wrapped_labels)
-
+        #ax.set_xticklabels(wrapped_labels)
+        # Plot the two bar charts for the total sales and total profit
+        # Set the colour for each
         ax.bar('Total Sales', total_sales, label='Total Sales', color='red')
         ax.bar('Total Profit', total_profit, label='Total Profit', color='blue')
+        # Add the labels to the x-axis
         ax.set_xlabel('Product')
+        # Add the Amount in € label to the y-axis
         ax.set_ylabel('Amount in €')
+        # Set the title of the chart
         ax.set_title('Product: {0} ({1})'.format(productName, prod_ID))
+        # Insert the legend
         ax.legend()
-
+        # Create a Matplotlib canvas within the frame
         canvas = FigureCanvasTkAgg(fig, master=frame)
         canvas.get_tk_widget().pack(fill=tk.BOTH, expand=True)
-
         from matplotlib.backends.backend_tkagg import NavigationToolbar2Tk
+        # Add a toolbar (optional)
         toolbar = NavigationToolbar2Tk(canvas, frame)
         canvas.get_tk_widget().pack(fill=tk.BOTH, expand=True)
         toolbar.update()
-
-        root.mainloop()
-
-        #Create a resultset form the merged_df based on the prodID
-        # Extrapulate the order information into a new dataframe
-        # Remove any 0's
-        # Calculate and print the totals
-        # Print the resulting dataframe
-
-        # Next plot the barchart as per the screenshot in the assessment sheet
-        # Create the main window
-        # Create a custom frame to hold the Matplotlib plot
-        # Create a Matplotlib figure and subplot
-
-        # Modify the x and y labels on the axis to ensure nonscientific notation
-        # and that the text is wrapped where it is too long
-
-        # Plot the two bar charts for the total sales and total profit
-        # Set the colour for each
-        # Add the labels to the x-axis
-        # Add the Amount in € label to the y-axis
-        # Set the title of the chart
-        # Insert the legend
-        # Create a Matplotlib canvas within the frame
-        # Add a toolbar (optional)
         # Start the Tkinter main loop
+        root.mainloop()
 
     def printDF(self, dataF):
         print('Print the dataF using tabulate')
