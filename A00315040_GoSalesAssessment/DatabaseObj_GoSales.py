@@ -19,8 +19,10 @@ class DBConnection:
         self.connectionProgress = None
         self.tableInfo = None
         self.mydb = None
+        #Each table used - starting variables and setting all of them to None
         self.go_daily_sales = None
         self.go_products = None
+        #Merged DF
         self.merged_df = None
         # Configure db
         self.db_config = {
@@ -38,7 +40,7 @@ class DBConnection:
 
     def ConnectNow(self):
         print("The ConnectNow function")
-        # Print the connection data to the user so they can see what was entered
+        # Print the connection data to the user, so they can see what was entered
         self.connectionProgress = "New connection Using:" \
                                   "\nHost: {0}" \
                                   "\nUser: {1}" \
@@ -106,6 +108,9 @@ class DBConnection:
         self.merged_df['Total Sales'] = round(self.merged_df['Quantity']*self.merged_df['Unit sale price'],2)
         self.merged_df['Total Profit'] = round(self.merged_df['Total Sales'] - (self.merged_df['Unit cost'] * self.merged_df['Quantity']),2)
         # Print this merged dataframe to the console using printDF function
+        # This line prints the whole table, and not just heads and tails:
+        # print(tabulate(self.merged_df, headers='keys', tablefmt='pretty', showindex=True))
+        # These 2 lines print only heads and tails of the table
         print(tabulate(self.merged_df.head(), headers='keys', tablefmt='pretty', showindex=True))
         print(tabulate(self.merged_df.tail(), headers='keys', tablefmt='pretty', showindex=True))
 
