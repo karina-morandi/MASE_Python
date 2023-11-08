@@ -1,6 +1,7 @@
 import sys
 import pandas as pd
 from matplotlib.backends._backend_tk import FigureCanvasTk
+from sqlalchemy.dialects import mysql
 from tabulate import tabulate
 from sqlalchemy import create_engine, inspect
 import matplotlib.pyplot as plt

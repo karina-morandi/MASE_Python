@@ -1,0 +1,230 @@
+New connection Using:
+Host: relational.fit.cvut.cz
+User: guest
+Password: relational
+Port: 3306
+Database: classicmodels
+
+Tables in the database:
+customers
+employees
+offices
+orderdetails
+orders
+payments
+productlines
+products
+
+
+Using Table
+orderdetails
+orders
+products
+The performEDA function
+
+
+
+******************** orderdetails ********************
+
+
+Print DataFrame Info for table orderdetails
+<class 'pandas.core.frame.DataFrame'>
+RangeIndex: 2996 entries, 0 to 2995
+Data columns (total 5 columns):
+ #   Column           Non-Null Count  Dtype  
+---  ------           --------------  -----  
+ 0   orderNumber      2996 non-null   int64  
+ 1   productCode      2996 non-null   object 
+ 2   quantityOrdered  2996 non-null   int64  
+ 3   priceEach        2996 non-null   float64
+ 4   orderLineNumber  2996 non-null   int64  
+dtypes: float64(1), int64(3), object(1)
+memory usage: 117.2+ KB
+None
+
+
+Print Number of Unique Items in orderdetails
+orderNumber         326
+productCode         109
+quantityOrdered      61
+priceEach          1573
+orderLineNumber      18
+dtype: int64
+
+
+Print Number of Unique Items in Each Column for table orderdetails
+orderNumber        [10100, 10101, 10102, 10103, 10104, 10105, 101...
+productCode        [S18_1749, S18_2248, S18_4409, S24_3969, S18_2...
+quantityOrdered    [30, 50, 22, 49, 25, 26, 45, 46, 39, 41, 42, 2...
+priceEach          [136.0, 55.09, 75.46, 35.29, 108.06, 167.06, 3...
+orderLineNumber    [3, 2, 4, 1, 11, 8, 10, 12, 14, 13, 16, 5, 9, ...
+dtype: object
+
+
+Table: orderdetails
++---+-------------+-------------+-----------------+-----------+-----------------+
+|   | orderNumber | productCode | quantityOrdered | priceEach | orderLineNumber |
++---+-------------+-------------+-----------------+-----------+-----------------+
+| 0 |    10100    |  S18_1749   |       30        |   136.0   |        3        |
+| 1 |    10100    |  S18_2248   |       50        |   55.09   |        2        |
+| 2 |    10100    |  S18_4409   |       22        |   75.46   |        4        |
+| 3 |    10100    |  S24_3969   |       49        |   35.29   |        1        |
+| 4 |    10101    |  S18_2325   |       25        |  108.06   |        4        |
++---+-------------+-------------+-----------------+-----------+-----------------+
++------+-------------+-------------+-----------------+-----------+-----------------+
+|      | orderNumber | productCode | quantityOrdered | priceEach | orderLineNumber |
++------+-------------+-------------+-----------------+-----------+-----------------+
+| 2991 |    10425    |  S24_2300   |       49        |  127.79   |        9        |
+| 2992 |    10425    |  S24_2840   |       31        |   31.82   |        5        |
+| 2993 |    10425    |  S32_1268   |       41        |   83.79   |       11        |
+| 2994 |    10425    |  S32_2509   |       11        |   50.32   |        6        |
+| 2995 |    10425    |  S50_1392   |       18        |   94.92   |        2        |
++------+-------------+-------------+-----------------+-----------+-----------------+
+The performEDA function
+
+
+
+******************** orders ********************
+
+
+Print DataFrame Info for table orders
+<class 'pandas.core.frame.DataFrame'>
+RangeIndex: 326 entries, 0 to 325
+Data columns (total 7 columns):
+ #   Column          Non-Null Count  Dtype 
+---  ------          --------------  ----- 
+ 0   orderNumber     326 non-null    int64 
+ 1   orderDate       326 non-null    object
+ 2   requiredDate    326 non-null    object
+ 3   shippedDate     312 non-null    object
+ 4   status          326 non-null    object
+ 5   comments        80 non-null     object
+ 6   customerNumber  326 non-null    int64 
+dtypes: int64(2), object(5)
+memory usage: 18.0+ KB
+None
+
+
+Print Number of Unique Items in orders
+orderNumber       326
+orderDate         265
+requiredDate      264
+shippedDate       247
+status              6
+comments           37
+customerNumber     98
+dtype: int64
+
+
+Print Number of Unique Items in Each Column for table orders
+orderNumber       [10100, 10101, 10102, 10103, 10104, 10105, 101...
+orderDate         [2003-01-06, 2003-01-09, 2003-01-10, 2003-01-2...
+requiredDate      [2003-01-13, 2003-01-18, 2003-02-07, 2003-02-0...
+shippedDate       [2003-01-10, 2003-01-11, 2003-01-14, 2003-02-0...
+status            [Shipped, Resolved, Cancelled, On Hold, Disput...
+comments          [None, Check on availability., Difficult to ne...
+customerNumber    [363, 128, 181, 121, 141, 145, 278, 131, 385, ...
+dtype: object
+
+
+Table: orders
++---+-------------+------------+--------------+-------------+---------+------------------------+----------------+
+|   | orderNumber | orderDate  | requiredDate | shippedDate | status  |        comments        | customerNumber |
++---+-------------+------------+--------------+-------------+---------+------------------------+----------------+
+| 0 |    10100    | 2003-01-06 |  2003-01-13  | 2003-01-10  | Shipped |                        |      363       |
+| 1 |    10101    | 2003-01-09 |  2003-01-18  | 2003-01-11  | Shipped | Check on availability. |      128       |
+| 2 |    10102    | 2003-01-10 |  2003-01-18  | 2003-01-14  | Shipped |                        |      181       |
+| 3 |    10103    | 2003-01-29 |  2003-02-07  | 2003-02-02  | Shipped |                        |      121       |
+| 4 |    10104    | 2003-01-31 |  2003-02-09  | 2003-02-01  | Shipped |                        |      141       |
++---+-------------+------------+--------------+-------------+---------+------------------------+----------------+
++-----+-------------+------------+--------------+-------------+------------+-----------------------------------------------------+----------------+
+|     | orderNumber | orderDate  | requiredDate | shippedDate |   status   |                      comments                       | customerNumber |
++-----+-------------+------------+--------------+-------------+------------+-----------------------------------------------------+----------------+
+| 321 |    10421    | 2005-05-29 |  2005-06-06  |             | In Process | Custom shipping instructions were sent to warehouse |      124       |
+| 322 |    10422    | 2005-05-30 |  2005-06-11  |             | In Process |                                                     |      157       |
+| 323 |    10423    | 2005-05-30 |  2005-06-05  |             | In Process |                                                     |      314       |
+| 324 |    10424    | 2005-05-31 |  2005-06-08  |             | In Process |                                                     |      141       |
+| 325 |    10425    | 2005-05-31 |  2005-06-07  |             | In Process |                                                     |      119       |
++-----+-------------+------------+--------------+-------------+------------+-----------------------------------------------------+----------------+
+The performEDA function
+
+
+
+******************** products ********************
+
+
+Print DataFrame Info for table products
+<class 'pandas.core.frame.DataFrame'>
+RangeIndex: 110 entries, 0 to 109
+Data columns (total 9 columns):
+ #   Column              Non-Null Count  Dtype  
+---  ------              --------------  -----  
+ 0   productCode         110 non-null    object 
+ 1   productName         110 non-null    object 
+ 2   productLine         110 non-null    object 
+ 3   productScale        110 non-null    object 
+ 4   productVendor       110 non-null    object 
+ 5   productDescription  110 non-null    object 
+ 6   quantityInStock     110 non-null    int64  
+ 7   buyPrice            110 non-null    float64
+ 8   MSRP                110 non-null    float64
+dtypes: float64(2), int64(1), object(6)
+memory usage: 7.9+ KB
+None
+
+
+Print Number of Unique Items in products
+productCode           110
+productName           110
+productLine             7
+productScale            8
+productVendor          13
+productDescription     95
+quantityInStock       110
+buyPrice              108
+MSRP                  108
+dtype: int64
+
+
+Print Number of Unique Items in Each Column for table products
+productCode           [S10_1678, S10_1949, S10_2016, S10_4698, S10_4...
+productName           [1969 Harley Davidson Ultimate Chopper, 1952 A...
+productLine           [Motorcycles, Classic Cars, Trucks and Buses, ...
+productScale          [1:10, 1:12, 1:18, 1:72, 1:24, 1:32, 1:50, 1:700]
+productVendor         [Min Lin Diecast, Classic Metal Creations, Hig...
+productDescription    [This replica features working kickstand, fron...
+quantityInStock       [7933, 7305, 6625, 5582, 3252, 6791, 68, 3619,...
+buyPrice              [48.81, 98.58, 68.99, 91.02, 85.68, 103.42, 95...
+MSRP                  [95.7, 214.3, 118.94, 193.66, 136.0, 147.74, 1...
+dtype: object
+
+
+Table: products
++---+-------------+---------------------------------------+--------------+--------------+--------------------------+---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+-----------------+----------+--------+
+|   | productCode |              productName              | productLine  | productScale |      productVendor       |                                                                                                                                                                                           productDescription                                                                                                                                                                                            | quantityInStock | buyPrice |  MSRP  |
++---+-------------+---------------------------------------+--------------+--------------+--------------------------+---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+-----------------+----------+--------+
+| 0 |  S10_1678   | 1969 Harley Davidson Ultimate Chopper | Motorcycles  |     1:10     |     Min Lin Diecast      |                                                                                 This replica features working kickstand, front suspension, gear-shift lever, footbrake lever, drive chain, wheels and steering. All parts are particularly delicate due to their precise scale and require special care and attention.                                                                                  |      7933       |  48.81   |  95.7  |
+| 1 |  S10_1949   |       1952 Alpine Renault 1300        | Classic Cars |     1:10     | Classic Metal Creations  |                                                                                                                             Turnable front wheels; steering function; detailed interior; detailed engine; opening hood; opening trunk; opening doors; and detailed chassis.                                                                                                                             |      7305       |  98.58   | 214.3  |
+| 2 |  S10_2016   |         1996 Moto Guzzi 1100i         | Motorcycles  |     1:10     | Highway 66 Mini Classics | Official Moto Guzzi logos and insignias, saddle bags located on side of motorcycle, detailed engine, working steering, working suspension, two leather seats, luggage rack, dual exhaust pipes, small saddle bag located on handle bars, two-tone paint with chrome accents, superior die-cast detail , rotating wheels , working kick stand, diecast metal with plastic parts and baked enamel finish. |      6625       |  68.99   | 118.94 |
+| 3 |  S10_4698   | 2003 Harley-Davidson Eagle Drag Bike  | Motorcycles  |     1:10     |    Red Start Diecast     |                                 Model features, official Harley Davidson logos and insignias, detachable rear wheelie bar, heavy diecast metal with resin parts, authentic multi-color tampo-printed graphics, separate engine drive belts, free-turning front fork, rotating tires and rear racing slick, certificate of authenticity, detailed engine, display stand                                  |      5582       |  91.02   | 193.66 |
+|   |             |                                       |              |              |                          |                                                                                                                 , precision diecast replica, baked enamel finish, 1:10 scale model, removable fender, seat and tank cover piece for displaying the superior detail of the v-twin engine                                                                                                                 |                 |          |        |
+| 4 |  S10_4757   |          1972 Alfa Romeo GTA          | Classic Cars |     1:10     | Motor City Art Classics  |                                                                                                                    Features include: Turnable front wheels; steering function; detailed interior; detailed engine; opening hood; opening trunk; opening doors; and detailed chassis.                                                                                                                    |      3252       |  85.68   | 136.0  |
++---+-------------+---------------------------------------+--------------+--------------+--------------------------+---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+-----------------+----------+--------+
++-----+-------------+---------------------------+-------------+--------------+---------------------------+-------------------------------------------------------------------------------------------------------------------------------------------------+-----------------+----------+--------+
+|     | productCode |        productName        | productLine | productScale |       productVendor       |                                                               productDescription                                                                | quantityInStock | buyPrice |  MSRP  |
++-----+-------------+---------------------------+-------------+--------------+---------------------------+-------------------------------------------------------------------------------------------------------------------------------------------------+-----------------+----------+--------+
+| 105 |  S700_3505  |        The Titanic        |    Ships    |    1:700     | Carousel DieCast Legends  |             Completed model measures 19 1/2 inches long, 9 inches high, 3inches wide and is in barn red/black. All wood and metal.              |      1956       |  51.09   | 100.17 |
+| 106 |  S700_3962  |      The Queen Mary       |    Ships    |    1:700     | Welly Diecast Productions | Exact replica. Wood and Metal. Many extras including rigging, long boats, pilot house, anchors, etc. Comes with three masts, all square-rigged. |      5088       |  53.63   | 99.31  |
+| 107 |  S700_4002  | American Airlines: MD-11S |   Planes    |    1:700     |    Second Gear Diecast    |                             Polished finish. Exact replia with official logos and insignias and retractable wheels                              |      8820       |  36.27   | 74.03  |
+| 108 |  S72_1253   |     Boeing X-32A JSF      |   Planes    |     1:72     |  Motor City Art Classics  |                                          10" Wingspan with retractable landing gears.Comes with pilot                                           |      4857       |  32.77   | 49.66  |
+| 109 |  S72_3212   |        Pont Yacht         |    Ships    |     1:72     |   Unimax Art Galleries    |                                         Measures 38 inches Long x 33 3/4 inches High. Includes a stand.                                         |       414       |   33.3   |  54.6  |
+|     |             |                           |             |              |                           |                   Many extras including rigging, long boats, pilot house, anchors, etc. Comes with 2 masts, all square-rigged                   |                 |          |        |
++-----+-------------+---------------------------+-------------+--------------+---------------------------+-------------------------------------------------------------------------------------------------------------------------------------------------+-----------------+----------+--------+
+
+
+Merged Dataframe function
+The analyseTop10QuantitySales function
+The analyseProductByID function
+Product Line Summary
+Close the connection
+Connection closed
