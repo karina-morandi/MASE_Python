@@ -13,7 +13,7 @@ def main():
     # Passed the tuple to the DBConnection class
     relationalDB = DBConnection(db_Info);
     #Using the new instance of the DBConnection call the function analyseTop10QuantitySales()
-    relationalDB.analyseTop10QuantitySales()
+    # relationalDB.analyseTop10QuantitySales()
     # Next call the function analyseProductByID('S72_1253')
     relationalDB. analyseProductByID('S72_1253')
     #Next call the function productLineSummary()

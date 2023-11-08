@@ -227,5 +227,5 @@ class DBConnection:
     def disposeConnection(self):
         print("Close the connection")
         # Close the database connection
-        self.cursor.close()
+
 
