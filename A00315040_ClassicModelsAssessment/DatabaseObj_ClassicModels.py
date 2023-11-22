@@ -1,6 +1,7 @@
 import pandas as pd
-from tabulate import tabulate
+import sqlalchemy
 from sqlalchemy import create_engine, inspect
+from tabulate import tabulate
 import matplotlib.pyplot as plt
 import tkinter as tk
 from tkinter import ttk

@@ -11,7 +11,7 @@ def main():
     # Create a tuple that will store all this information
     db_Info = (host, user, password, port, database)
     # Passed the tuple to the DBConnection class
-    relationalDB = DBConnection(db_Info);
+    relationalDB = DBConnection(db_Info)
     #Using the new instance of the DBConnection call the function analyseTop10QuantitySales()
     # relationalDB.analyseTop10QuantitySales()
     # Next call the function analyseProductByID('S72_1253')
