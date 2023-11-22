@@ -3,12 +3,16 @@ import webbrowser
 from tkinter import *
 from PIL import ImageTk
 from tkinter import font
-import csv
+from TablesFrame_Obj import TablesFrame
 
-class AppGUI(tk.Tk):
+class AppGUI(tk.Frame):
     def __init__(self, master, title):
+        tk.Frame.__init__(self, master)
         self.master = master
-        self.master.title(title)
+        self.master.title("Final Project")
+
+        self.TablesObj = TablesFrame(self)
+        self.TablesObj.withdraw()
 
         left_frame = tk.Frame(master)
         left_frame.grid(row=1, column=0, sticky="nsew")
@@ -26,10 +30,10 @@ class AppGUI(tk.Tk):
         self.ComicF3 = font.Font(family="Calibri", size=12, weight="normal")
         self.l1 = tk.Label(master, text="Main Window", font=self.ComicF1).grid(row=0,column=0,columnspan=2, sticky=tk.N + tk.S + tk.E + tk.W)
 
-        self.info = tk.Button(left_frame, text="Tables", command=self.read_csv_data, font=self.ComicF3)
+        self.info = tk.Button(left_frame, text="Tables", command=self.showTables, font=self.ComicF3)
         self.info.grid(row=1, column=0, sticky=N + S + E + W, padx=5, pady=5)
 
-        self.buyPrint = tk.Button(left_frame, text="Graphs", command=self.openURL_Video, font=self.ComicF3)
+        self.buyPrint = tk.Button(left_frame, text="Graphs", command=self.showTables, font=self.ComicF3)
         self.buyPrint.grid(row=2, column=0, sticky=N + S + E + W, padx=5, pady=5)
 
         self.close_Frame = tk.Button(left_frame, text="Images", command=self.hide, font=self.ComicF3)
@@ -45,19 +49,6 @@ class AppGUI(tk.Tk):
         self.canvas = tk.Canvas(master, height=height, width=width)
         self.canvas.grid(row=0, column=1, rowspan=height, sticky=E)
         self.canvas.create_image(0, 1, anchor='nw', image=self.image)
-
-    def read_csv_data(self):
-        data_list = self.readFromCsvFile("world_population.csv")
-        for item in data_list:
-            print(item)
-
-    def readFromCsvFile(self, filename):
-        data_list = []
-        with open(filename, 'r') as file:
-            csv_reader = csv.reader(file)
-            for row in csv_reader:
-                data_list.append(row)
-        return data_list
 
 
     def VisualiseGender(self):
@@ -77,12 +68,8 @@ class AppGUI(tk.Tk):
         self.root.show()
 
     def showTables(self):
-        self.Tables_Window.show()
+        self.TablesObj.show()
         self.master.withdraw()
-
-    def openURL_Video(self):
-        url_video = "https://www.youtube.com/watch?v=RWJEfXOiebU"
-        webbrowser.open_new_tab(url_video)
 
     def CloseApplication(self):
         print('closing')
