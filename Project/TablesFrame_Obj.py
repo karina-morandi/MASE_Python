@@ -1,4 +1,3 @@
-import webbrowser
 from tkinter import *
 import tkinter as tk
 from tkinter import font
@@ -64,8 +63,8 @@ class TablesFrame(tk.Toplevel):
         self.hide() # Hide the window
 
     def hide(self):
-        self.withdraw() #Removes the window from the screen, without destroying it.
-        self.master.show()
+        self.withdraw()  # Remove the window from the screen, without destroying it.
+        self.master.show_main_window()
 
     def read_csv_data(self):
         data_list = self.readFromCsvFile("world_population.csv")

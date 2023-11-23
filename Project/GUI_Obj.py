@@ -4,22 +4,23 @@ from tkinter import *
 from PIL import ImageTk
 from tkinter import font
 from TablesFrame_Obj import TablesFrame
+from ImagesFrame_Obj import ImagesFrame
 
 class AppGUI(tk.Frame):
     def __init__(self, master, title):
         tk.Frame.__init__(self, master)
+
         self.master = master
         self.master.title("Final Project")
 
         self.TablesObj = TablesFrame(self)
         self.TablesObj.withdraw()
 
+        self.ImagesObj = ImagesFrame(self)
+        self.ImagesObj.withdraw()
+
         left_frame = tk.Frame(master)
         left_frame.grid(row=1, column=0, sticky="nsew")
-
-        # Create a frame for the right side (connection information)
-        right_frame = tk.Frame(master)
-        right_frame.grid(row=1, column=4, sticky="nsew")
 
         # Configure the grid to expand with the window
         master.grid_rowconfigure(1, weight=1)
@@ -36,8 +37,8 @@ class AppGUI(tk.Frame):
         self.buyPrint = tk.Button(left_frame, text="Graphs", command=self.showTables, font=self.ComicF3)
         self.buyPrint.grid(row=2, column=0, sticky=N + S + E + W, padx=5, pady=5)
 
-        self.close_Frame = tk.Button(left_frame, text="Images", command=self.hide, font=self.ComicF3)
-        self.close_Frame.grid(row=3, column=0, sticky=N + S + E + W, padx=5, pady=5)
+        self.images = tk.Button(left_frame, text="Images", command=self.showImages, font=self.ComicF3)
+        self.images.grid(row=3, column=0, sticky=N + S + E + W, padx=5, pady=5)
 
         self.close_Frame = tk.Button(left_frame, text="Close", command=self.CloseApplication, font=self.ComicF3)
         self.close_Frame.grid(row=4, column=0, sticky=N + S + E + W, padx=5, pady=5)
@@ -50,15 +51,12 @@ class AppGUI(tk.Frame):
         self.canvas.grid(row=0, column=1, rowspan=height, sticky=E)
         self.canvas.create_image(0, 1, anchor='nw', image=self.image)
 
-
-    def VisualiseGender(self):
-        # values, labels = self.relationalDB.visualiseClient()
-        # print(values)
-        self.relationalDB.visualiseClient()
-
-    def show(self):
+    def show_main_window(self):
         self.update()  # Update the window
-        self.deiconify()  # Displays the window, after using either the iconify or the withdraw methods.
+        self.show()
+    def show(self):
+        self.master.update()  # Update the window
+        self.master.deiconify()  # Displays the window, after using either the iconify or the withdraw methods.
 
     def OverrideWindow(self):
         self.hide()  # Hide the window
@@ -69,6 +67,10 @@ class AppGUI(tk.Frame):
 
     def showTables(self):
         self.TablesObj.show()
+        self.master.withdraw()
+
+    def showImages(self):
+        self.ImagesObj.show()
         self.master.withdraw()
 
     def CloseApplication(self):
