@@ -1,7 +1,9 @@
 import tkinter as tk
 from tkinter import font
 import pandas as pd
+from matplotlib import pyplot as plt
 from tabulate import tabulate
+from PIL import Image, ImageTk
 import csv
 import io
 import sys
@@ -110,6 +112,26 @@ class TablesFrame(tk.Toplevel):
         data = pd.read_csv("world_population.csv")
         sorted_data = data.sort_values(by='Continent')[['Country/Territory', 'Continent', '2022 Population']]
         self.print_to_log(str(sorted_data))
+
+        country_counts = sorted_data['Continent'].value_counts()
+
+        # Create a pie chart
+        plt.figure(figsize=(8, 6))
+        plt.pie(country_counts, labels=country_counts.index, autopct='%1.1f%%', startangle=140)
+        plt.title('Number of Countries per Continent')
+        plt.axis('equal')  # Equal aspect ratio ensures that pie is drawn as a circle.
+
+        pie_img_path = 'countinents_chart.png'
+        plt.savefig(pie_img_path)
+        plt.close()
+
+        # Display the pie chart in the GUI
+        pie_img = Image.open(pie_img_path)
+        pie_img = pie_img.resize((400, 300), Image.BICUBIC)  # Resize the image if needed
+        pie_img_tk = ImageTk.PhotoImage(pie_img)
+        self.print_to_log('Countries per Continent')
+        self.log.image_create('end', image=pie_img_tk)
+        self.log.image = pie_img_tk
 
     def sort_by_population_2022(self):
         data = pd.read_csv("world_population.csv")
