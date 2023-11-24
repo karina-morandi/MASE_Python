@@ -4,7 +4,8 @@ from tkinter import font
 from tkinter import ttk
 import numpy as np
 import pandas as pd
-from matplotlib import pyplot as plt
+import matplotlib.pyplot as plt
+from PIL import Image, ImageTk
 import seaborn as sns
 from sklearn.linear_model import LinearRegression
 import csv
@@ -106,11 +107,29 @@ class GraphsFrame(tk.Toplevel):
 
         if selected_column in df.columns:
             column_info = df[selected_column].astype(int)
-            bins = np.linspace(column_info.min(), column_info.max(), 6)
-            labels = [f"Bin {i}" for i in range(1, len(bins))]
+            custom_bins = [0, 1000000, 10000000, 50000000, 100000000, column_info.max()]
+            labels = ['Very Small', 'Small', 'Medium', 'Large', 'Very Large']
 
-            df['Binned Population'] = pd.cut(column_info, bins=bins, labels=labels, include_lowest=True)
+            df['Binned Population'] = pd.cut(column_info, bins=custom_bins, labels=labels, include_lowest=True)
             self.print_to_log(str(df[['Country/Territory', selected_column, 'Binned Population']]))
+
+            bin_percentages = df['Binned Population'].value_counts(normalize=True) * 100
+
+            plt.figure(figsize=(8, 6))
+            plt.pie(bin_percentages, labels=bin_percentages.index, autopct='%1.1f%%', startangle=140)
+            plt.title('Percentage of Population in Each Bin')
+            plt.axis('equal')
+            pie_img_path = 'pie_chart.png'
+            plt.savefig(pie_img_path)
+            plt.close()
+
+            # Display the pie chart in the GUI
+            pie_img = Image.open(pie_img_path)
+            pie_img = pie_img.resize((400, 300), Image.BICUBIC)  # Resize the image if needed
+            pie_img_tk = ImageTk.PhotoImage(pie_img)
+            self.print_to_log('Pie Chart - Percentage of Population in Each Bin:')
+            self.log.image_create('end', image=pie_img_tk)
+            self.log.image = pie_img_tk
 
             unique_bins = df['Binned Population'].unique()
             print(unique_bins)
