@@ -1,3 +1,4 @@
+import textwrap
 import tkinter as tk
 from tkinter import font
 from tkinter import ttk
@@ -67,7 +68,7 @@ class GraphsFrame(tk.Toplevel):
         self.sort_continent_button = tk.Button(buttonPanel, text="Correlations", command=self.correlation, font=self.ComicF2, width=20)
         self.sort_continent_button.grid(row=7, column=0, columnspan=2, pady=5)
 
-        self.sort_population_2022_button = tk.Button(buttonPanel, text="Predictions", command=self.sort_by_population_2022, font=self.ComicF2, width=20)
+        self.sort_population_2022_button = tk.Button(buttonPanel, text="Data Analysis", command=self.population_in_different_years, font=self.ComicF2, width=20)
         self.sort_population_2022_button.grid(row=8, column=0, columnspan=2, pady=5)
 
         self.close_Frame = tk.Button(buttonPanel, text="Close", command=self.hide, font=self.ComicF2, width=20)
@@ -162,14 +163,37 @@ class GraphsFrame(tk.Toplevel):
             plt.gcf().suptitle('Pairplot Demo Title')
             plt.show()
 
-    def sort_by_population_2022(self):
-        data = pd.read_csv("world_population.csv")  # Load CSV into a DataFrame
-        sorted_data = data.nlargest(n=20, columns='2022 Population')[
-        ['Country/Territory', '2022 Population', 'World Population Percentage']]  # Sort by 'Population 2022' column
-        # self.print_to_log(str(sorted_data))  # Display the sorted data (you can modify this to display as needed)
+            selected_country = self.country_var.get()  # Get the selected country
+            country_data = df[df['Country/Territory'] == selected_country]  # Filter data for the selected country
 
-    def sort_by_world_population_percentage(self):
-        data = pd.read_csv("world_population.csv")  # Load CSV into a DataFrame
-        sorted_data = data.nlargest(n=20, columns='World Population Percentage')[['Country/Territory', 'Continent',
-        'World Population Percentage']]  # Sort by 'World Population Percentage' column
-        self.print_to_log(str(sorted_data))  # Display the sorted data (you can modify this to display as needed)
+            # Perform correlation analysis or create visualizations using country_data
+            # For instance:
+            correlation = country_data[['Growth Rate', 'World Population Percentage']].corr()
+            self.print_to_log(str(correlation))
+
+    def population_in_different_years(self):
+        data = pd.read_csv("world_population.csv")
+        df = pd.DataFrame(data)
+        selected_country = self.country_var.get()  # Get the selected country
+        country_data = df[df['Country/Territory'] == selected_country]  # Filter data for the selected country
+
+        # Select columns representing population in different years
+        selected_years = ["1970 Population", "1980 Population", "1990 Population", "2000 Population", "2010 Population",
+                          "2015 Population", "2020 Population", "2022 Population"]
+
+        # Extract population data for the selected years
+        population_data = country_data[selected_years]
+
+        wrapped_labels = [textwrap.fill(label, 10) for label in selected_years]
+
+        fig, ax = plt.subplots()  # Create a figure and axis object
+        population_data.T.plot(kind='line', ax=ax)
+        plt.xlabel('Years')
+        plt.ylabel('Population')
+        plt.title(f'Population Trend in Different Years for {selected_country}')
+        plt.legend(loc='upper left')
+
+        # Set x-axis tick positions and labels
+        plt.xticks(ticks=range(len(wrapped_labels)), labels=wrapped_labels, rotation=45, ha='right')
+        plt.tight_layout()  # Adjust layout to prevent clipping of labels
+        plt.show()
