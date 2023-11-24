@@ -1,5 +1,4 @@
 import tkinter as tk
-import webbrowser
 from tkinter import *
 from PIL import ImageTk
 from tkinter import font
@@ -26,7 +25,6 @@ class AppGUI(tk.Frame):
         left_frame = tk.Frame(master)
         left_frame.grid(row=1, column=0, sticky="nsew")
 
-        # Configure the grid to expand with the window
         master.grid_rowconfigure(1, weight=1)
         master.grid_columnconfigure(0, weight=1)
         master.grid_columnconfigure(1, weight=1)
@@ -56,17 +54,17 @@ class AppGUI(tk.Frame):
         self.canvas.create_image(0, 1, anchor='nw', image=self.image)
 
     def show_main_window(self):
-        self.update()  # Update the window
+        self.update()
         self.show()
     def show(self):
-        self.master.update()  # Update the window
-        self.master.deiconify()  # Displays the window, after using either the iconify or the withdraw methods.
+        self.master.update()
+        self.master.deiconify()
 
     def OverrideWindow(self):
-        self.hide()  # Hide the window
+        self.hide()
 
     def hide(self):
-        self.withdraw()  # Removes the window from the screen, without destroying it.
+        self.withdraw()
         self.root.show()
 
     def showTables(self):

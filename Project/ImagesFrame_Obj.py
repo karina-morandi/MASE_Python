@@ -6,19 +6,16 @@ from tkinter import font
 class ImagesFrame(tk.Toplevel):
 
     def __init__(self, master):
-        tk.Toplevel.__init__(self, master)  # Initialize superclass
+        tk.Toplevel.__init__(self, master)
         self.title("World Images")
         self.protocol('WM_DELETE_WINDOW', self.OverrideWindow)
 
         self.ComicF1 = font.Font(family="Calibri", size=16, weight="normal")
         self.ComicF2 = font.Font(family="Calibri", size=12, weight="normal")
 
-        # Create two panels, one is for the buttons and the other is for the canvas (images)
         buttonPanel = tk.Frame(self, background="black")
-        # Set the positioning of the panels
         buttonPanel.pack(side="left", fill="y")
 
-        # ill in these two areas:
         self._layoutButtons(buttonPanel)
         self.resizable(False, False)
 
@@ -51,14 +48,14 @@ class ImagesFrame(tk.Toplevel):
         self.close_Frame.grid(row=8, column=0, sticky=N+S+E+W, padx=5, pady=5)
 
     def show(self):
-        self.update()       # Update the window
-        self.deiconify() #Displays the window, after using either the iconify or the withdraw methods.
+        self.update()
+        self.deiconify()
 
     def OverrideWindow(self):
-        self.hide() # Hide the window
+        self.hide()
 
     def hide(self):
-        self.withdraw() #Removes the window from the screen, without destroying it.
+        self.withdraw()
         self.master.show_main_window()
 
     def asiaImages(self):
