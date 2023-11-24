@@ -4,6 +4,9 @@ from tkinter import font
 import pandas as pd
 from tabulate import tabulate
 import csv
+import io
+import sys
+
 
 class TablesFrame(tk.Toplevel):
 
@@ -12,7 +15,6 @@ class TablesFrame(tk.Toplevel):
         self.title("Tables Information")
         self.protocol('WM_DELETE_WINDOW', self.OverrideWindow)
 
-        # Set up the fonts you want to use
         self.ComicF1 = font.Font(family="Calibri", size=16, weight="normal")
         self.ComicF2 = font.Font(family="Calibri", size=12, weight="normal")
 
@@ -23,37 +25,47 @@ class TablesFrame(tk.Toplevel):
         buttonPanel.pack(side="left", fill="y")
         # canvasPanel.pack(side="right", fill="both", expand=True)
 
-        # ill in these two areas:
-        self._layoutButtons(buttonPanel)
-        # self._layoutCanvas(canvasPanel)
-        self.resizable(False, False)
+        # # ill in these two areas:
+        # self._layoutButtons(buttonPanel)
+        # # self._layoutCanvas(canvasPanel)
+        # self.resizable(False, False)
 
+        # Layout buttons within the button panel using pack()
+        self.titleLabel = tk.Label(buttonPanel, text="Tables Window", font=self.ComicF1)
+        self.titleLabel.pack()
 
-    def _layoutButtons(self, parent):
+        self.tableButton = tk.Button(buttonPanel, text="Table", command=self.read_csv_data, font=self.ComicF2)
+        self.tableButton.pack(padx=5, pady=5)
 
-        self.titleLabel = tk.Label(parent, text="Tables Window", font=self.ComicF1)
-        self.titleLabel.grid(row=0, column=0, sticky=N+S+E+W)
+        self.basicButton = tk.Button(buttonPanel, text="Basic Info", command=lambda: self.tables_frame_preformEDA("world_population.csv"), font=self.ComicF2)
+        self.basicButton.pack(padx=5, pady=5)
 
-        self.tableButton=tk.Button(parent, text="Table", command=self.read_csv_data, font=self.ComicF2)
-        self.tableButton.grid(row=1, column=0, sticky=N+S+E+W, padx=5, pady=5)
-
-        self.basicButton = tk.Button(parent, text="Basic Info", command=lambda: self.tables_frame_preformEDA("world_population.csv"), font=self.ComicF2)
-        self.basicButton.grid(row=2, column=0, sticky=N+S+E+W, padx=5, pady=5)
-
-        self.sort_continent_button = tk.Button(parent, text="Sort by Continent", command=self.sort_by_continent, font=self.ComicF2)
-        self.sort_continent_button.grid(row=3, column=0, sticky=N + S + E + W, padx=5, pady=5)
+        self.sort_continent_button = tk.Button(buttonPanel, text="Sort by Continent", command=self.sort_by_continent, font=self.ComicF2)
+        self.sort_continent_button.pack(padx=5, pady=5)
 
         # Button for sorting by Population in 2022
-        self.sort_population_2022_button = tk.Button(parent, text="Sort by Population 2022", command=self.sort_by_population_2022, font=self.ComicF2)
-        self.sort_population_2022_button.grid(row=4, column=0, sticky=N + S + E + W, padx=5, pady=5)
+        self.sort_population_2022_button = tk.Button(buttonPanel, text="Sort by Population 2022", command=self.sort_by_population_2022, font=self.ComicF2)
+        self.sort_population_2022_button.pack(padx=5, pady=5)
 
         # Button for sorting by World Population Percentage
-        self.sort_world_population_percentage_button = tk.Button(parent, text="Sort by World Population Percentage",command=self.sort_by_world_population_percentage,
-                                                                 font=self.ComicF2)
-        self.sort_world_population_percentage_button.grid(row=5, column=0, sticky=N + S + E + W, padx=5, pady=5)
+        self.sort_world_population_percentage_button = tk.Button(buttonPanel, text="Sort by World Population Percentage", command=self.sort_by_world_population_percentage, font=self.ComicF2)
+        self.sort_world_population_percentage_button.pack(padx=5, pady=5)
 
-        self.close_Frame = tk.Button(parent, text="Close", command=self.hide, font=self.ComicF2)
-        self.close_Frame.grid(row=6, column=0, sticky=N+S+E+W, padx=5, pady=5)
+        self.close_Frame = tk.Button(buttonPanel, text="Close", command=self.hide, font=self.ComicF2)
+        self.close_Frame.pack(padx=5, pady=5)
+
+        # Define self.log
+        self.log = tk.Text(self, state='normal', height=20, width=60)
+        self.log.pack(side="left", fill="both", expand=True)
+
+        self.scrollB = tk.Scrollbar(self, command=self.log.yview)
+        self.scrollB.pack(side="right", fill="y")
+
+    def print_to_log(self, message):
+        self.log.configure(state='normal')
+        self.log.insert('end', message + '\n')
+        self.log.configure(state='disabled')
+        self.log.yview('end')
 
     def show(self):
         self.update()       # Update the window
@@ -69,7 +81,7 @@ class TablesFrame(tk.Toplevel):
     def read_csv_data(self):
         data_list = self.readFromCsvFile("world_population.csv")
         for item in data_list:
-            print(item)
+            self.print_to_log(str(item))
 
     def readFromCsvFile(self, filename):
         data_list = []
@@ -85,34 +97,43 @@ class TablesFrame(tk.Toplevel):
         self.preformEDA(filename)  # Calls the preformEDA method passing filename as argument
 
     def preformEDA(self, filename):
-        print("Performing EDA for:", filename)
-        data = pd.read_csv(filename)  # Load CSV into a pandas DataFrame
+        data = pd.read_csv("world_population.csv")  # Load CSV into a pandas DataFrame
 
-        print("\n\n\n******************** {0} ********************".format(filename))
-        print('\n\nPrint DataFrame Info for {0}'.format(filename))
-        print(data.info())
-        print('\n\nPrint Number of Unique Items in {0}'.format(filename))
-        print(data.nunique())
-        print('\n\nPrint Number of Unique Items in Each Column for {0}'.format(filename))
+        self.print_to_log("\n\n\n******************** {0} ********************".format(filename))
+        self.print_to_log('\n\nPrint DataFrame Info for {0}'.format(filename))
+        # self.print_to_log(str(data.info()))
+        buffer = io.StringIO()
+        sys.stdout = buffer
+        data.info()
+        sys.stdout = sys.__stdout__  # Reset standard output
+
+        # Get the captured output
+        captured_output = buffer.getvalue()
+        self.print_to_log(captured_output)
+
+        self.print_to_log('\n\nPrint Number of Unique Items in {0}'.format(filename))
+        self.print_to_log(str(data.nunique()))
+        self.print_to_log('\n\nPrint Number of Unique Items in Each Column for {0}'.format(filename))
         for column in data.columns:
-            print(f'Column: {column}\n{data[column].unique()}')
+            self.print_to_log(f'Column: {column}\n{data[column].unique()}')
 
-        print("\n\nTable: {0}".format(filename))
-        print(tabulate(data.head(), headers='keys', tablefmt='pretty', showindex=True))
-        print(tabulate(data.tail(), headers='keys', tablefmt='pretty', showindex=True))
+        self.print_to_log("\n\nTable: {0}".format(filename))
+        self.print_to_log(str(data.describe()))
+        self.print_to_log(tabulate(data.head(), headers='keys', tablefmt='pretty', showindex=True))
+        self.print_to_log(tabulate(data.tail(), headers='keys', tablefmt='pretty', showindex=True))
 
     def sort_by_continent(self):
         data = pd.read_csv("world_population.csv")  # Load CSV into a DataFrame
         sorted_data = data.sort_values(by='Continent')[['Country/Territory', 'Continent', '2022 Population']]  # Sort by 'Continent' column
-        print(sorted_data)  # Display the sorted data (you can modify this to display as needed)
+        self.print_to_log(str(sorted_data))  # Display the sorted data (you can modify this to display as needed)
 
     def sort_by_population_2022(self):
         data = pd.read_csv("world_population.csv")  # Load CSV into a DataFrame
         sorted_data = data.nlargest(n=20, columns='2022 Population')[['Country/Territory', '2022 Population', 'World Population Percentage']]  # Sort by 'Population 2022' column
-        print(sorted_data)  # Display the sorted data (you can modify this to display as needed)
+        self.print_to_log(str(sorted_data))  # Display the sorted data (you can modify this to display as needed)
 
     def sort_by_world_population_percentage(self):
         data = pd.read_csv("world_population.csv")  # Load CSV into a DataFrame
         sorted_data = data.nlargest(n=20, columns='World Population Percentage')[['Country/Territory', 'Continent', 'World Population Percentage']]  # Sort by 'World Population Percentage' column
-        print(sorted_data)  # Display the sorted data (you can modify this to display as needed)
+        self.print_to_log(str(sorted_data))  # Display the sorted data (you can modify this to display as needed)
 

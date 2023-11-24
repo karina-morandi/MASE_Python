@@ -5,6 +5,7 @@ from PIL import ImageTk
 from tkinter import font
 from TablesFrame_Obj import TablesFrame
 from ImagesFrame_Obj import ImagesFrame
+from GraphsFrame_Obj import GraphsFrame
 
 class AppGUI(tk.Frame):
     def __init__(self, master, title):
@@ -15,6 +16,9 @@ class AppGUI(tk.Frame):
 
         self.TablesObj = TablesFrame(self)
         self.TablesObj.withdraw()
+
+        self.GraphsObj = GraphsFrame(self)
+        self.GraphsObj.withdraw()
 
         self.ImagesObj = ImagesFrame(self)
         self.ImagesObj.withdraw()
@@ -34,7 +38,7 @@ class AppGUI(tk.Frame):
         self.info = tk.Button(left_frame, text="Tables", command=self.showTables, font=self.ComicF3)
         self.info.grid(row=1, column=0, sticky=N + S + E + W, padx=5, pady=5)
 
-        self.buyPrint = tk.Button(left_frame, text="Graphs", command=self.showTables, font=self.ComicF3)
+        self.buyPrint = tk.Button(left_frame, text="Graphs", command=self.showGraphs, font=self.ComicF3)
         self.buyPrint.grid(row=2, column=0, sticky=N + S + E + W, padx=5, pady=5)
 
         self.images = tk.Button(left_frame, text="Images", command=self.showImages, font=self.ComicF3)
@@ -67,6 +71,10 @@ class AppGUI(tk.Frame):
 
     def showTables(self):
         self.TablesObj.show()
+        self.master.withdraw()
+
+    def showGraphs(self):
+        self.GraphsObj.show()
         self.master.withdraw()
 
     def showImages(self):
