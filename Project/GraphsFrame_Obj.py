@@ -62,13 +62,42 @@ class GraphsFrame(tk.Toplevel):
                                                font=self.ComicF2, width=20)
         self.sort_continent_button.grid(row=7, column=0, columnspan=2, pady=5)
 
-        self.sort_population_2022_button = tk.Button(buttonPanel, text="Data Analysis",
+        self.sort_population_2022_button = tk.Button(buttonPanel, text="Population Trend",
                                                      command=self.population_in_different_years, font=self.ComicF2,
                                                      width=20)
         self.sort_population_2022_button.grid(row=8, column=0, columnspan=2, pady=5)
 
+        self.sort_population_2022_button = tk.Button(buttonPanel, text="Density Against Growth", command=self.densityVsGrowthRate, font=self.ComicF2,
+                                                     width=20)
+        self.sort_population_2022_button.grid(row=9, column=0, columnspan=2, pady=5)
+
+        self.sort_population_2022_button = tk.Button(buttonPanel, text="Population Trend",
+                                                     command=self.population_in_different_years, font=self.ComicF2,
+                                                     width=20)
+        self.sort_population_2022_button.grid(row=10, column=0, columnspan=2, pady=5)
+
+        self.sort_population_2022_button = tk.Button(buttonPanel, text="Population Trend",
+                                                     command=self.population_in_different_years, font=self.ComicF2,
+                                                     width=20)
+        self.sort_population_2022_button.grid(row=11, column=0, columnspan=2, pady=5)
+
+        self.sort_population_2022_button = tk.Button(buttonPanel, text="Population Trend",
+                                                     command=self.population_in_different_years, font=self.ComicF2,
+                                                     width=20)
+        self.sort_population_2022_button.grid(row=12, column=0, columnspan=2, pady=5)
+
+        self.sort_population_2022_button = tk.Button(buttonPanel, text="Population Trend",
+                                                     command=self.population_in_different_years, font=self.ComicF2,
+                                                     width=20)
+        self.sort_population_2022_button.grid(row=13, column=0, columnspan=2, pady=5)
+
+        self.sort_population_2022_button = tk.Button(buttonPanel, text="Population Trend",
+                                                     command=self.population_in_different_years, font=self.ComicF2,
+                                                     width=20)
+        self.sort_population_2022_button.grid(row=14, column=0, columnspan=2, pady=5)
+
         self.close_Frame = tk.Button(buttonPanel, text="Close", command=self.hide, font=self.ComicF2, width=20)
-        self.close_Frame.grid(row=9, column=0, columnspan=2, pady=5)
+        self.close_Frame.grid(row=15, column=0, columnspan=2, pady=5)
 
     def print_to_log(self, message):
         self.log.configure(state='normal')
@@ -203,3 +232,18 @@ class GraphsFrame(tk.Toplevel):
         plt.xticks(ticks=range(len(wrapped_labels)), labels=wrapped_labels, rotation=45, ha='right')
         plt.tight_layout()
         plt.show()
+
+    def densityVsGrowthRate(self):
+        data = pd.read_csv("world_population.csv")
+        df = pd.DataFrame(data)
+        correlation = df[['Growth Rate', 'Density (per km)']].corr()
+        self.print_to_log(str(correlation))
+        sns.pairplot(df, y_vars=['Growth Rate'], x_vars=['Density (per km)'], diag_kind='kde')
+        plt.gcf().suptitle('Pairplot Demo Title')
+        plt.show()
+
+        selected_country = self.country_var.get()
+        country_data = df[df['Country/Territory'] == selected_country]
+
+        correlation = country_data[['Growth Rate', 'Density (per km)']].corr()
+        self.print_to_log(str(correlation))

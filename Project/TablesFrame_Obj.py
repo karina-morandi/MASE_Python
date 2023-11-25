@@ -25,22 +25,22 @@ class TablesFrame(tk.Toplevel):
         self.titleLabel = tk.Label(buttonPanel, text="Tables Window", font=self.ComicF1)
         self.titleLabel.pack()
 
-        self.tableButton = tk.Button(buttonPanel, text="Table", command=self.read_csv_data, font=self.ComicF2)
+        self.tableButton = tk.Button(buttonPanel, text="Table", command=self.read_csv_data, font=self.ComicF2, width=30)
         self.tableButton.pack(padx=5, pady=5)
 
-        self.basicButton = tk.Button(buttonPanel, text="Basic Info", command=lambda: self.tables_frame_preformEDA("world_population.csv"), font=self.ComicF2)
+        self.basicButton = tk.Button(buttonPanel, text="Basic Info", command=lambda: self.tables_frame_preformEDA("world_population.csv"), font=self.ComicF2, width=30)
         self.basicButton.pack(padx=5, pady=5)
 
-        self.sort_continent_button = tk.Button(buttonPanel, text="Sort by Continent", command=self.sort_by_continent, font=self.ComicF2)
+        self.sort_continent_button = tk.Button(buttonPanel, text="Sort by Continent", command=self.sort_by_continent, font=self.ComicF2, width=30)
         self.sort_continent_button.pack(padx=5, pady=5)
 
-        self.sort_population_2022_button = tk.Button(buttonPanel, text="Sort by Population 2022", command=self.sort_by_population_2022, font=self.ComicF2)
+        self.sort_population_2022_button = tk.Button(buttonPanel, text="Sort by Population 2022", command=self.sort_by_population_2022, font=self.ComicF2, width=30)
         self.sort_population_2022_button.pack(padx=5, pady=5)
 
-        self.sort_world_population_percentage_button = tk.Button(buttonPanel, text="Sort by World Population Percentage", command=self.sort_by_world_population_percentage, font=self.ComicF2)
+        self.sort_world_population_percentage_button = tk.Button(buttonPanel, text="Sort by World Population Percentage", command=self.sort_by_world_population_percentage, font=self.ComicF2, width=30)
         self.sort_world_population_percentage_button.pack(padx=5, pady=5)
 
-        self.close_Frame = tk.Button(buttonPanel, text="Close", command=self.hide, font=self.ComicF2)
+        self.close_Frame = tk.Button(buttonPanel, text="Close", command=self.hide, font=self.ComicF2, width=30)
         self.close_Frame.pack(padx=5, pady=5)
 
         # Define self.log
