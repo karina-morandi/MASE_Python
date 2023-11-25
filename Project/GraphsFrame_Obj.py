@@ -144,6 +144,14 @@ class GraphsFrame(tk.Toplevel):
 
             bin_percentages = df['Binned Population'].value_counts(normalize=True) * 100
 
+            if 'Continent' in df.columns:
+                # Grouping by 'Continent' and 'Binned Population' and getting counts
+                grouped = df.groupby(['Continent', 'Binned Population'], observed=False).size().unstack(fill_value=0)
+
+                # Displaying counts for each bin category by continent
+                self.print_to_log('Number of cities in each bin category for each continent:')
+                self.print_to_log(str(grouped))
+
             plt.figure(figsize=(8, 6))
             plt.pie(bin_percentages, labels=bin_percentages.index, autopct='%1.1f%%', startangle=140)
             plt.title('Percentage of Population in Each Bin')
