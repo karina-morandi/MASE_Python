@@ -58,7 +58,7 @@ class GraphsFrame(tk.Toplevel):
                                      font=self.ComicF2, width=20)
         self.basicButton.grid(row=6, column=0, columnspan=2, pady=5)
 
-        self.sort_continent_button = tk.Button(buttonPanel, text="Correlations", command=self.correlation,
+        self.sort_continent_button = tk.Button(buttonPanel, text="Growth Against World Percentage", command=self.growthRateVsWorldPercentage,
                                                font=self.ComicF2, width=20)
         self.sort_continent_button.grid(row=7, column=0, columnspan=2, pady=5)
 
@@ -71,33 +71,28 @@ class GraphsFrame(tk.Toplevel):
                                                      width=20)
         self.sort_population_2022_button.grid(row=9, column=0, columnspan=2, pady=5)
 
-        self.sort_population_2022_button = tk.Button(buttonPanel, text="Population Trend",
-                                                     command=self.population_in_different_years, font=self.ComicF2,
+        self.sort_population_2022_button = tk.Button(buttonPanel, text="areaVsPopDensity",
+                                                     command=self.areaVsPopDensity, font=self.ComicF2,
                                                      width=20)
         self.sort_population_2022_button.grid(row=10, column=0, columnspan=2, pady=5)
 
-        self.sort_population_2022_button = tk.Button(buttonPanel, text="Population Trend",
-                                                     command=self.population_in_different_years, font=self.ComicF2,
+        self.sort_population_2022_button = tk.Button(buttonPanel, text="popNowAndThen",
+                                                     command=self.popNowAndThen, font=self.ComicF2,
                                                      width=20)
         self.sort_population_2022_button.grid(row=11, column=0, columnspan=2, pady=5)
 
-        self.sort_population_2022_button = tk.Button(buttonPanel, text="Population Trend",
-                                                     command=self.population_in_different_years, font=self.ComicF2,
+        self.sort_population_2022_button = tk.Button(buttonPanel, text="popPerContinent",
+                                                     command=self.popPerContinent, font=self.ComicF2,
                                                      width=20)
         self.sort_population_2022_button.grid(row=12, column=0, columnspan=2, pady=5)
 
-        self.sort_population_2022_button = tk.Button(buttonPanel, text="Population Trend",
-                                                     command=self.population_in_different_years, font=self.ComicF2,
+        self.sort_population_2022_button = tk.Button(buttonPanel, text="linearReg",
+                                                     command=self.linearReg, font=self.ComicF2,
                                                      width=20)
         self.sort_population_2022_button.grid(row=13, column=0, columnspan=2, pady=5)
 
-        self.sort_population_2022_button = tk.Button(buttonPanel, text="Population Trend",
-                                                     command=self.population_in_different_years, font=self.ComicF2,
-                                                     width=20)
-        self.sort_population_2022_button.grid(row=14, column=0, columnspan=2, pady=5)
-
         self.close_Frame = tk.Button(buttonPanel, text="Close", command=self.hide, font=self.ComicF2, width=20)
-        self.close_Frame.grid(row=15, column=0, columnspan=2, pady=5)
+        self.close_Frame.grid(row=14, column=0, columnspan=2, pady=5)
 
     def print_to_log(self, message):
         self.log.configure(state='normal')
@@ -202,7 +197,7 @@ class GraphsFrame(tk.Toplevel):
         plt.legend()
         plt.show()
 
-    def correlation(self):
+    def growthRateVsWorldPercentage(self):
         data = pd.read_csv("world_population.csv")
         df = pd.DataFrame(data)
         correlation = df[['Growth Rate', 'World Population Percentage']].corr()
@@ -255,3 +250,104 @@ class GraphsFrame(tk.Toplevel):
 
         correlation = country_data[['Growth Rate', 'Density (per km)']].corr()
         self.print_to_log(str(correlation))
+
+    def areaVsPopDensity(self):
+        data = pd.read_csv("world_population.csv")
+
+        # Calculate population density (Population / Area)
+        data['Population Density'] = data['2022 Population'] / data['Area (km)']
+
+        # Plotting the correlation between Area and Population Density
+        plt.figure(figsize=(8, 6))
+        sns.scatterplot(data=data, x='Area (km)', y='Population Density')
+        plt.title('Correlation between Area and Population Density')
+        plt.xlabel('Area (km)')
+        plt.ylabel('Population Density')
+        plt.show()
+
+    def popNowAndThen(self):
+        data = pd.read_csv("world_population.csv")
+
+        # Extracting columns for recent and older years
+        recent_years = ["2020 Population", "2022 Population"]
+        older_years = ["1970 Population", "1980 Population"]
+
+        plt.figure(figsize=(12, 8))
+        for i, recent_year in enumerate(recent_years):
+            for j, older_year in enumerate(older_years):
+                plt.subplot(len(recent_years), len(older_years), i * len(older_years) + j + 1)
+                sns.scatterplot(data=data, x=recent_year, y=older_year)
+                plt.title(f"{recent_year} vs {older_year}")
+                plt.xlabel(recent_year)
+                plt.ylabel(older_year)
+
+        plt.tight_layout()
+        plt.show()
+
+
+    def popPerContinent(self):
+        data = pd.read_csv("world_population.csv")
+        df = pd.DataFrame(data)
+        # Assuming 'Continent' column exists in your DataFrame
+        # Group the data by continent and create separate scatterplots for each group
+        for continent, group_data in df.groupby('Continent'):
+            # Scatterplot for each continent
+            plt.figure(figsize=(8, 6))
+
+            # Extract columns for recent and older years (e.g., '2020 Population' vs. '1980 Population')
+            recent_year_column = '2020 Population'  # Replace with your recent year column
+            older_year_column = '1980 Population'  # Replace with your older year column
+
+            x = group_data[older_year_column]
+            y = group_data[recent_year_column]
+
+            # Plotting scatterplot
+            plt.scatter(x, y, label=f'{continent}')
+
+            plt.title(f'Population Scatterplot: {continent}')
+            plt.xlabel(f'Population in {older_year_column}')
+            plt.ylabel(f'Population in {recent_year_column}')
+            plt.legend()
+
+            # Show or save each scatterplot
+            plt.show()  # Show each scatterplot
+            # plt.savefig(f'{continent}_population_scatterplot.png')  # Save each scatterplot as an image
+
+    def linearReg(self):
+        data = pd.read_csv("world_population.csv")
+        df = pd.DataFrame(data)
+        # Assuming you have columns for recent and older years (e.g., '2020 Population' and '1980 Population')
+        recent_year_column = '2020 Population'  # Replace with your recent year column
+        older_year_column = '1980 Population'  # Replace with your older year column
+
+        # Extract relevant columns for regression analysis
+        X = df[[older_year_column]]  # Independent variable (older year population)
+        y = df[recent_year_column]  # Dependent variable (recent year population)
+
+        # Create and fit the linear regression model
+        regression_model = LinearRegression()
+        regression_model.fit(X, y)
+
+        # Get the model predictions
+        predictions = regression_model.predict(X)
+
+        # Plotting the scatterplot and the regression line
+        plt.figure(figsize=(8, 6))
+        plt.scatter(X, y, color='blue', label='Actual Data')  # Scatter plot for actual data
+        plt.plot(X, predictions, color='red', label='Regression Line')  # Regression line
+
+        plt.title('Linear Regression: Recent vs. Older Population Counts')
+        plt.xlabel('Older Year Population')
+        plt.ylabel('Recent Year Population')
+        plt.legend()
+        plt.grid(True)
+        plt.show()
+
+        # Retrieve model coefficients
+        coefficients = regression_model.coef_
+        intercept = regression_model.intercept_
+
+        # Print the coefficients and intercept
+        self.print_to_log(f'Coefficient (Slope): {coefficients[0]:.2f}')
+        self.print_to_log(f'Intercept: {intercept:.2f}')
+
