@@ -49,12 +49,14 @@ class MapsFrame(tk.Toplevel):
         gdf = gpd.GeoDataFrame(top_cities, geometry=gpd.points_from_xy(top_cities['lng'], top_cities['lat']))
 
         # Filter the world GeoDataFrame to include the selected country
-        world = gpd.read_file('/Users/karina/Documents/MASE/Semester 1/Data Analysis and Visualization/Project/ne_110m_admin_0_countries/ne_110m_admin_0_countries.shp')
+        world = gpd.read_file('ne_110m_admin_0_countries/ne_110m_admin_0_countries.shp')
         # Assuming the column containing country names is 'country_name'
         country_boundaries = world[world['ADMIN'] == selected_country]
 
         # Clear previous plot
         self.ax.clear()
+
+        self.ax.axis('off')
 
         # Plot country boundaries
         if not country_boundaries.empty:
