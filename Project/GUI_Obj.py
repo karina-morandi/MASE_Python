@@ -5,6 +5,7 @@ from tkinter import font
 from TablesFrame_Obj import TablesFrame
 from ImagesFrame_Obj import ImagesFrame
 from GraphsFrame_Obj import GraphsFrame
+from MapFrame_Obj import MapsFrame
 
 class AppGUI(tk.Frame):
     def __init__(self, master, title):
@@ -21,6 +22,9 @@ class AppGUI(tk.Frame):
 
         self.ImagesObj = ImagesFrame(self)
         self.ImagesObj.withdraw()
+
+        self.MapsObj = MapsFrame(self)
+        self.MapsObj.withdraw()
 
         left_frame = tk.Frame(master)
         left_frame.grid(row=1, column=0, sticky="nsew")
@@ -42,8 +46,11 @@ class AppGUI(tk.Frame):
         self.images = tk.Button(left_frame, text="Images", command=self.showImages, font=self.ComicF3)
         self.images.grid(row=3, column=0, sticky=N + S + E + W, padx=5, pady=5)
 
+        self.map = tk.Button(left_frame, text="Maps", command=self.showMaps, font=self.ComicF3)
+        self.map.grid(row=4, column=0, sticky=N + S + E + W, padx=5, pady=5)
+
         self.close_Frame = tk.Button(left_frame, text="Close", command=self.CloseApplication, font=self.ComicF3)
-        self.close_Frame.grid(row=4, column=0, sticky=N + S + E + W, padx=5, pady=5)
+        self.close_Frame.grid(row=5, column=0, sticky=N + S + E + W, padx=5, pady=5)
 
         img_Path = '/Users/karina/PycharmProjects/MASE_Python/Project/worldMap.jpeg'
         self.image = ImageTk.PhotoImage(file=img_Path)
@@ -77,6 +84,10 @@ class AppGUI(tk.Frame):
 
     def showImages(self):
         self.ImagesObj.show()
+        self.master.withdraw()
+
+    def showMaps(self):
+        self.MapsObj.show()
         self.master.withdraw()
 
     def CloseApplication(self):

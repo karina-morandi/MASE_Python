@@ -6,13 +6,15 @@ from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg
 import tkinter as tk
 from tkinter import ttk
 
-class Test:
+
+class MapsFrame(tk.Toplevel):
 
     def __init__(self, master):
-        self.master = master
-        self.master.title("Data Visualization")
+        tk.Toplevel.__init__(self, master)
+        self.title("Maps")
+        self.protocol('WM_DELETE_WINDOW', self.OverrideWindow)
 
-        self.buttonPanel = tk.Frame(self.master, background="black")
+        self.buttonPanel = tk.Frame(self, background="black")
         self.buttonPanel.pack(side="top", fill="x")
 
         # Sample data with coordinates
@@ -28,8 +30,10 @@ class Test:
         self.country_dropdown.pack()
         self.country_dropdown.bind("<<ComboboxSelected>>", self.plot_map)
 
+        self.fig, self.ax = plt.subplots(figsize=(10, 8))
+
         self.figure = plt.figure(figsize=(10, 8))
-        self.canvas = FigureCanvasTkAgg(self.figure, master=self.master)
+        self.canvas = FigureCanvasTkAgg(self.fig, master=self)
         self.canvas.get_tk_widget().pack(side=tk.TOP, fill=tk.BOTH, expand=True)
 
     def plot_map(self, event=None):
@@ -42,36 +46,37 @@ class Test:
         top_cities = country_cities.nlargest(10, 'population')
 
         # Creating a GeoDataFrame for the top cities
-        gdf = gpd.GeoDataFrame(top_cities, geometry=[Point(xy) for xy in zip(top_cities['lng'], top_cities['lat'])])
+        gdf = gpd.GeoDataFrame(top_cities, geometry=gpd.points_from_xy(top_cities['lng'], top_cities['lat']))
 
         # Filter the world GeoDataFrame to include the selected country
-        world = gpd.read_file(gpd.datasets.get_path('naturalearth_lowres'))
-        country_boundaries = world[world['name'] == selected_country]
+        world = gpd.read_file('/Users/karina/Documents/MASE/Semester 1/Data Analysis and Visualization/Project/ne_110m_admin_0_countries/ne_110m_admin_0_countries.shp')
+        # Assuming the column containing country names is 'country_name'
+        country_boundaries = world[world['ADMIN'] == selected_country]
 
         # Clear previous plot
-        self.figure.clear()
-
-        # Plotting the data for the selected country
-        ax = self.figure.add_subplot(111)
-        ax.axis('off')  # Turn off the axis
+        self.ax.clear()
 
         # Plot country boundaries
         if not country_boundaries.empty:
-            country_boundaries.plot(ax=ax, edgecolor='black', facecolor='none')
+            country_boundaries.plot(ax=self.ax, edgecolor='black', facecolor='none')
+            self.ax.axis('off')  # Turn off the axis for country boundaries
 
         # Plot city dots
         if not gdf.empty:
-            gdf.plot(ax=ax, color='red', marker='o', markersize=50, alpha=0.5, edgecolor='black')
+            gdf.plot(ax=self.ax, color='red', marker='o', markersize=50, alpha=0.5, edgecolor='black')
             for x, y, label in zip(gdf.geometry.x, gdf.geometry.y, gdf['city']):
-                ax.text(x, y, label, fontsize=9)
+                self.ax.text(x, y, label, fontsize=9)
 
+        # Update the canvas
         self.canvas.draw()
 
-def main():
-    root = tk.Tk()
-    app = Test(root)
-    root.mainloop()
+    def show(self):
+        self.update()
+        self.deiconify()
 
-if __name__ == "__main__":
-    main()
+    def OverrideWindow(self):
+        self.hide()
 
+    def hide(self):
+        self.withdraw()
+        self.master.show_main_window()
