@@ -54,8 +54,14 @@ class MapsFrame(tk.Toplevel):
 
         base_path = self.resource_path("")  # Get base path for bundled app
 
-        city_data = pd.read_csv(os.path.join(base_path, 'worldcities.csv'))
-        data = pd.read_csv(os.path.join(base_path, "world_population.csv"))
+        csv_pop = "world_population.csv"
+        file_path = self.resource_path(csv_pop)
+        data = pd.read_csv(file_path)
+
+        csv_city = "worldcities.csv"
+        file_city = self.resource_path(csv_city)
+        city_data = pd.read_csv(file_city)
+        df = pd.DataFrame(data)
         df = pd.DataFrame(data)
 
         country_cities = city_data[city_data['country'] == selected_country]
@@ -64,7 +70,9 @@ class MapsFrame(tk.Toplevel):
 
         gdf = gpd.GeoDataFrame(top_cities, geometry=gpd.points_from_xy(top_cities['lng'], top_cities['lat']))
 
-        world_shapefile_path = os.path.join(base_path, 'ne_110m_admin_0_countries', 'ne_110m_admin_0_countries.shp')
+        world_shp = 'ne_110m_admin_0_countries', 'ne_110m_admin_0_countries.shp'
+        file_world = self.resource_path(world_shp)
+        world_shapefile_path = pd.read_csv(file_world)
         world = gpd.read_file(world_shapefile_path)
 
         country_boundaries = world[world['ADMIN'] == selected_country]
