@@ -7,6 +7,8 @@ from PIL import Image, ImageTk
 import csv
 import io
 import sys
+import sys
+import os
 
 
 class TablesFrame(tk.Toplevel):
@@ -67,7 +69,8 @@ class TablesFrame(tk.Toplevel):
         self.master.show_main_window()
 
     def read_csv_data(self):
-        data_list = self.readFromCsvFile("world_population.csv")
+        file_path = self.resource_path("world_population.csv")
+        data_list = self.readFromCsvFile(file_path)
         for item in data_list:
             self.print_to_log(str(item))
 
@@ -84,7 +87,9 @@ class TablesFrame(tk.Toplevel):
         self.preformEDA(filename)
 
     def preformEDA(self, filename):
-        data = pd.read_csv("world_population.csv")
+        csv_file = "world_population.csv"
+        file_path = self.resource_path(csv_file)
+        data = pd.read_csv(file_path)
 
         self.print_to_log("\n\n\n******************** {0} ********************".format(filename))
         self.print_to_log('\n\nPrint DataFrame Info for {0}'.format(filename))
@@ -108,7 +113,9 @@ class TablesFrame(tk.Toplevel):
         self.print_to_log(tabulate(data.tail(), headers='keys', tablefmt='pretty', showindex=True))
 
     def sort_by_continent(self):
-        data = pd.read_csv("world_population.csv")
+        csv_file = "world_population.csv"
+        file_path = self.resource_path(csv_file)
+        data = pd.read_csv(file_path)
         sorted_data = data.sort_values(by='Continent')[['Country/Territory', 'Continent', '2022 Population']]
         self.print_to_log(str(sorted_data))
 
@@ -131,12 +138,28 @@ class TablesFrame(tk.Toplevel):
         self.log.image = pie_img_tk
 
     def sort_by_population_2022(self):
-        data = pd.read_csv("world_population.csv")
+        csv_file = "world_population.csv"
+        file_path = self.resource_path(csv_file)
+        data = pd.read_csv(file_path)
         sorted_data = data.nlargest(n=20, columns='2022 Population')[['Country/Territory', '2022 Population']]
         self.print_to_log(str(sorted_data))
 
     def sort_by_world_population_percentage(self):
-        data = pd.read_csv("world_population.csv")
+        csv_file = "world_population.csv"
+        file_path = self.resource_path(csv_file)
+        data = pd.read_csv(file_path)
         sorted_data = data.nlargest(n=20, columns='World Population Percentage')[['Country/Territory', 'Continent', 'World Population Percentage']]
         self.print_to_log(str(sorted_data))
+
+    @staticmethod
+    def resource_path(relative_path):
+        # Handle resource paths for bundled applications
+        if getattr(sys, 'frozen', False):
+            # Running in a bundle (PyInstaller)
+            base_path = sys._MEIPASS
+        else:
+            # Running as a script
+            base_path = os.path.abspath(".")
+
+        return os.path.join(base_path, relative_path)
 

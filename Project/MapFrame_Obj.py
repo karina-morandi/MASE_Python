@@ -1,3 +1,5 @@
+import os
+import sys
 import pandas as pd
 import geopandas as gpd
 from tkinter import font
@@ -16,8 +18,10 @@ class MapsFrame(tk.Toplevel):
 
         self.plot_container = None
 
-        city_data = pd.read_csv('worldcities.csv')
-        data = pd.read_csv("world_population.csv")
+        base_path = self.resource_path("")  # Get base path for bundled app
+
+        city_data = pd.read_csv(os.path.join(base_path, 'worldcities.csv'))
+        data = pd.read_csv(os.path.join(base_path, "world_population.csv"))
         df = pd.DataFrame(data)
 
         self.ComicF1 = font.Font(family="Calibri", size=16, weight="normal")
@@ -34,6 +38,13 @@ class MapsFrame(tk.Toplevel):
         self.country_dropdown.current(None)
         self.country_dropdown.bind("<<ComboboxSelected>>", self.plot_map)
 
+    def resource_path(self, relative_path):
+        """Get absolute path to resource, works for dev and for PyInstaller"""
+        if hasattr(sys, '_MEIPASS'):
+            return os.path.join(sys._MEIPASS, relative_path)
+        return os.path.join(os.path.abspath("."), relative_path)
+
+
     def plot_map(self, event=None):
         selected_country = self.country_var.get()
 
@@ -41,8 +52,10 @@ class MapsFrame(tk.Toplevel):
             self.plot_container.get_tk_widget().destroy()
             plt.close(self.fig)
 
-        city_data = pd.read_csv('worldcities.csv')
-        data = pd.read_csv("world_population.csv")
+        base_path = self.resource_path("")  # Get base path for bundled app
+
+        city_data = pd.read_csv(os.path.join(base_path, 'worldcities.csv'))
+        data = pd.read_csv(os.path.join(base_path, "world_population.csv"))
         df = pd.DataFrame(data)
 
         country_cities = city_data[city_data['country'] == selected_country]
@@ -51,7 +64,9 @@ class MapsFrame(tk.Toplevel):
 
         gdf = gpd.GeoDataFrame(top_cities, geometry=gpd.points_from_xy(top_cities['lng'], top_cities['lat']))
 
-        world = gpd.read_file('ne_110m_admin_0_countries/ne_110m_admin_0_countries.shp')
+        world_shapefile_path = os.path.join(base_path, 'ne_110m_admin_0_countries', 'ne_110m_admin_0_countries.shp')
+        world = gpd.read_file(world_shapefile_path)
+
         country_boundaries = world[world['ADMIN'] == selected_country]
 
         self.fig, self.ax = plt.subplots(figsize=(10, 8))
