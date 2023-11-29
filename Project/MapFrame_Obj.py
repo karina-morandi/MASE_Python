@@ -9,14 +9,6 @@ import tkinter as tk
 from tkinter import ttk
 
 
-def resource_path(relative_path):
-    """Get absolute path to resource, works for dev and for PyInstaller"""
-    if hasattr(sys, '_MEIPASS'):
-        return os.path.join(sys._MEIPASS, relative_path)
-    else:
-        return os.path.join(os.path.abspath("."), relative_path)
-
-
 class MapsFrame(tk.Toplevel):
 
     def __init__(self, master):
@@ -106,3 +98,10 @@ class MapsFrame(tk.Toplevel):
     def hide(self):
         self.withdraw()
         self.master.show_main_window()
+
+    def resource_path(relative_path):
+        """Get absolute path to resource, works for dev and for PyInstaller"""
+        if hasattr(sys, '_MEIPASS'):
+            return os.path.join(sys._MEIPASS, relative_path)
+        else:
+            return os.path.join(os.path.abspath("."), relative_path)
