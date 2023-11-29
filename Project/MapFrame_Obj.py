@@ -102,9 +102,14 @@ class MapsFrame(tk.Toplevel):
         self.withdraw()
         self.master.show_main_window()
 
+    @staticmethod
     def resource_path(relative_path):
-        """Get absolute path to resource, works for dev and for PyInstaller"""
-        if hasattr(sys, '_MEIPASS'):
-            return os.path.join(sys._MEIPASS, relative_path)
+        # Handle resource paths for bundled applications
+        if getattr(sys, 'frozen', False):
+            # Running in a bundle (PyInstaller)
+            base_path = sys._MEIPASS
         else:
-            return os.path.join(os.path.abspath("."), relative_path)
+            # Running as a script
+            base_path = os.path.abspath(".")
+
+        return os.path.join(base_path, relative_path)
