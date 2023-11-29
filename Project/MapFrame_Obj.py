@@ -9,6 +9,14 @@ import tkinter as tk
 from tkinter import ttk
 
 
+def resource_path(relative_path):
+    """Get absolute path to resource, works for dev and for PyInstaller"""
+    if hasattr(sys, '_MEIPASS'):
+        return os.path.join(sys._MEIPASS, relative_path)
+    else:
+        return os.path.join(os.path.abspath("."), relative_path)
+
+
 class MapsFrame(tk.Toplevel):
 
     def __init__(self, master):
@@ -18,7 +26,7 @@ class MapsFrame(tk.Toplevel):
 
         self.plot_container = None
 
-        base_path = self.resource_path("")  # Get base path for bundled app
+        base_path = resource_path("")  # Get base path for bundled app
 
         city_data = pd.read_csv(os.path.join(base_path, 'worldcities.csv'))
         data = pd.read_csv(os.path.join(base_path, "world_population.csv"))
@@ -38,13 +46,6 @@ class MapsFrame(tk.Toplevel):
         self.country_dropdown.current(None)
         self.country_dropdown.bind("<<ComboboxSelected>>", self.plot_map)
 
-    def resource_path(self, relative_path):
-        """Get absolute path to resource, works for dev and for PyInstaller"""
-        if hasattr(sys, '_MEIPASS'):
-            return os.path.join(sys._MEIPASS, relative_path)
-        return os.path.join(os.path.abspath("."), relative_path)
-
-
     def plot_map(self, event=None):
         selected_country = self.country_var.get()
 
@@ -52,14 +53,14 @@ class MapsFrame(tk.Toplevel):
             self.plot_container.get_tk_widget().destroy()
             plt.close(self.fig)
 
-        base_path = self.resource_path("")  # Get base path for bundled app
+        base_path = resource_path("")  # Get base path for bundled app
 
         csv_pop = "world_population.csv"
-        file_path = self.resource_path(csv_pop)
+        file_path = resource_path(csv_pop)
         data = pd.read_csv(file_path)
 
         csv_city = "worldcities.csv"
-        file_city = self.resource_path(csv_city)
+        file_city = resource_path(csv_city)
         city_data = pd.read_csv(file_city)
 
         country_cities = city_data[city_data['country'] == selected_country]
@@ -69,7 +70,7 @@ class MapsFrame(tk.Toplevel):
         gdf = gpd.GeoDataFrame(top_cities, geometry=gpd.points_from_xy(top_cities['lng'], top_cities['lat']))
 
         world_shp = 'ne_110m_admin_0_countries/ne_110m_admin_0_countries.shp'
-        file_world = self.resource_path(world_shp)
+        file_world = resource_path(world_shp)
         world = gpd.read_file(file_world, encoding='latin1')
 
         country_boundaries = world[world['ADMIN'] == selected_country]
