@@ -132,7 +132,7 @@ class TablesFrame(tk.Toplevel):
 
     def sort_by_population_2022(self):
         data = pd.read_csv("world_population.csv")
-        sorted_data = data.nlargest(n=20, columns='2022 Population')[['Country/Territory', '2022 Population', 'World Population Percentage']]
+        sorted_data = data.nlargest(n=20, columns='2022 Population')[['Country/Territory', '2022 Population']]
         self.print_to_log(str(sorted_data))
 
     def sort_by_world_population_percentage(self):
