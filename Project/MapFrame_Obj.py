@@ -1,6 +1,6 @@
 import pandas as pd
 import geopandas as gpd
-from shapely.geometry import Point
+from tkinter import font
 import matplotlib.pyplot as plt
 from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg
 import tkinter as tk
@@ -14,33 +14,39 @@ class MapsFrame(tk.Toplevel):
         self.title("Maps")
         self.protocol('WM_DELETE_WINDOW', self.OverrideWindow)
 
-        self.buttonPanel = tk.Frame(self, background="black")
-        self.buttonPanel.pack(side="top", fill="x")
+        self.plot_container = None
 
-        # Sample data with coordinates
-        self.city_data = pd.read_csv('worldcities.csv')
-        self.data = pd.read_csv("world_population.csv")
-        self.df = pd.DataFrame(self.data)
+        city_data = pd.read_csv('worldcities.csv')
+        data = pd.read_csv("world_population.csv")
+        df = pd.DataFrame(data)
 
-        countries = self.df['Country/Territory'].unique()
+        self.ComicF1 = font.Font(family="Calibri", size=16, weight="normal")
+
+        buttonPanel = tk.Frame(self, background="black")
+        buttonPanel.pack(side="top", fill="x")
+
+        countries = df['Country/Territory'].unique()
         self.country_var = tk.StringVar()
         country_options = {country: country.replace(" ", "_") for country in countries}
-        self.country_dropdown = ttk.Combobox(self.buttonPanel, textvariable=self.country_var,
+        self.country_dropdown = ttk.Combobox(buttonPanel, textvariable=self.country_var,
                                              values=list(country_options.keys()))
-        self.country_dropdown.pack()
+        self.country_dropdown.grid(row=0, column=0, columnspan=2)
+        self.country_dropdown.current(None)
         self.country_dropdown.bind("<<ComboboxSelected>>", self.plot_map)
-
-        self.fig, self.ax = plt.subplots(figsize=(10, 8))
-
-        self.figure = plt.figure(figsize=(10, 8))
-        self.canvas = FigureCanvasTkAgg(self.fig, master=self)
-        self.canvas.get_tk_widget().pack(side=tk.TOP, fill=tk.BOTH, expand=True)
 
     def plot_map(self, event=None):
         selected_country = self.country_var.get()
 
+        if self.plot_container is not None:
+            self.plot_container.get_tk_widget().destroy()
+            plt.close(self.fig)
+
+        city_data = pd.read_csv('worldcities.csv')
+        data = pd.read_csv("world_population.csv")
+        df = pd.DataFrame(data)
+
         # Filter cities for the selected country
-        country_cities = self.city_data[self.city_data['country'] == selected_country]
+        country_cities = city_data[city_data['country'] == selected_country]
 
         # Sort cities by population and select top 10 cities
         top_cities = country_cities.nlargest(10, 'population')
@@ -52,6 +58,11 @@ class MapsFrame(tk.Toplevel):
         world = gpd.read_file('ne_110m_admin_0_countries/ne_110m_admin_0_countries.shp')
         # Assuming the column containing country names is 'country_name'
         country_boundaries = world[world['ADMIN'] == selected_country]
+
+        self.fig, self.ax = plt.subplots(figsize=(10, 8))
+
+        self.canvas = FigureCanvasTkAgg(self.fig, master=self)
+        self.canvas.get_tk_widget().pack(side=tk.TOP, fill=tk.BOTH, expand=True)
 
         # Clear previous plot
         self.ax.clear()
@@ -71,6 +82,8 @@ class MapsFrame(tk.Toplevel):
 
         # Update the canvas
         self.canvas.draw()
+
+        self.plot_container = self.canvas
 
     def show(self):
         self.update()

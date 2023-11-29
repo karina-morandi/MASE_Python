@@ -306,7 +306,7 @@ class GraphsFrame(tk.Toplevel):
 
             ax.plot(x, predictions, label=f'LinReg {continent}', linestyle='dashed')
 
-        ax.set_title('Population Scatterplot with Linear Regression by Continent (1970 Population < 557501301)')
+        ax.set_title('Linear Regression per Continent')
         ax.set_xlabel(f'Population in {older_year_column}')
         ax.set_ylabel(f'Population in {recent_year_column}')
         ax.legend()

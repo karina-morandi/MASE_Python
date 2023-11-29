@@ -116,7 +116,7 @@ class TablesFrame(tk.Toplevel):
         country_counts = sorted_data['Continent'].value_counts()
 
         # Create a pie chart
-        plt.figure(figsize=(8, 6))
+        plt.figure(figsize=(16, 12))
         plt.pie(country_counts, labels=country_counts.index, autopct='%1.1f%%', startangle=140)
         plt.title('Number of Countries per Continent')
         plt.axis('equal')  # Equal aspect ratio ensures that pie is drawn as a circle.
@@ -127,7 +127,7 @@ class TablesFrame(tk.Toplevel):
 
         # Display the pie chart in the GUI
         pie_img = Image.open(pie_img_path)
-        pie_img = pie_img.resize((400, 300), Image.BICUBIC)  # Resize the image if needed
+        pie_img = pie_img.resize((800, 600), Image.BICUBIC)  # Resize the image if needed
         pie_img_tk = ImageTk.PhotoImage(pie_img)
         self.print_to_log('Countries per Continent')
         self.log.image_create('end', image=pie_img_tk)
