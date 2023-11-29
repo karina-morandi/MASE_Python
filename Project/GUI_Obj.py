@@ -6,6 +6,8 @@ from TablesFrame_Obj import TablesFrame
 from ImagesFrame_Obj import ImagesFrame
 from GraphsFrame_Obj import GraphsFrame
 from MapFrame_Obj import MapsFrame
+import os
+import sys
 
 
 class AppGUI(tk.Frame):
@@ -54,7 +56,7 @@ class AppGUI(tk.Frame):
         self.close_Frame = tk.Button(left_frame, text="Close", command=self.CloseApplication, font=self.ComicF3)
         self.close_Frame.grid(row=5, column=0, sticky=N + S + E + W, padx=5, pady=5)
 
-        img_Path = '/Users/karina/PycharmProjects/MASE_Python/Project/worldMap.jpeg'
+        img_Path = self.resource_path('/Users/karina/PycharmProjects/MASE_Python/Project/worldMap.jpeg')
         self.image = ImageTk.PhotoImage(file=img_Path)
         width = self.image.width()
         height = self.image.height()
@@ -96,3 +98,13 @@ class AppGUI(tk.Frame):
     def CloseApplication(self):
         print('closing')
         self.master.destroy()
+
+    def resource_path(self, relative_path):
+        # Get absolute path to images, as PyInstaller changes the directories when packaged
+        try:
+            # PyInstaller creates a temp folder and stores path in _MEIPASS
+            base_path = sys._MEIPASS
+        except Exception:
+            base_path = os.path.abspath(".")
+
+        return os.path.join(base_path, relative_path)

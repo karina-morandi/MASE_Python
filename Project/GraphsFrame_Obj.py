@@ -9,6 +9,8 @@ from PIL import Image, ImageTk
 import seaborn as sns
 from sklearn.linear_model import LinearRegression
 import csv
+import sys
+import os
 
 
 class GraphsFrame(tk.Toplevel):
@@ -20,7 +22,9 @@ class GraphsFrame(tk.Toplevel):
 
         self.plot_container = None
 
-        data = pd.read_csv("world_population.csv")
+        csv_file = "world_population.csv"
+        file_path = self.resource_path(csv_file)
+        data = pd.read_csv(file_path)
         df = pd.DataFrame(data)
 
         self.ComicF1 = font.Font(family="Calibri", size=16, weight="normal")
@@ -99,20 +103,23 @@ class GraphsFrame(tk.Toplevel):
         self.master.show_main_window()
 
     def read_csv_data(self):
-        data_list = self.readFromCsvFile("world_population.csv")
+        file_path = self.resource_path("world_population.csv")
+        data_list = self.readFromCsvFile(file_path)
         for item in data_list:
             self.print_to_log(str(item))
 
     def readFromCsvFile(self, filename):
         data_list = []
-        with open(filename, 'r') as file:
+        with open(self.resource_path(filename), 'r') as file:
             csv_reader = csv.reader(file)
             for row in csv_reader:
                 data_list.append(row)
         return data_list
 
     def binning(self):
-        data = pd.read_csv("world_population.csv")
+        csv_file = "world_population.csv"
+        file_path = self.resource_path(csv_file)
+        data = pd.read_csv(file_path)
         df = pd.DataFrame(data)
         selected_column = self.column_var.get()
 
@@ -154,7 +161,9 @@ class GraphsFrame(tk.Toplevel):
             self.info_label.config(text="Column not found")
 
     def create_combined_plots(self):
-        data = pd.read_csv("world_population.csv")
+        csv_file = "world_population.csv"
+        file_path = self.resource_path(csv_file)
+        data = pd.read_csv(file_path)
         df = pd.DataFrame(data)
         selected_country = self.country_var.get()
         country_data = df[df['Country/Territory'] == selected_country]
@@ -196,7 +205,9 @@ class GraphsFrame(tk.Toplevel):
         plt.show()
 
     def growthRateVsWorldPercentage(self):
-        data = pd.read_csv("world_population.csv")
+        csv_file = "world_population.csv"
+        file_path = self.resource_path(csv_file)
+        data = pd.read_csv(file_path)
         df = pd.DataFrame(data)
         filtered_data = df[(df['Growth Rate'] > 0.96) & (df['Growth Rate'] < 1.06) &
                            (df['World Population Percentage'] < 12.5)]
@@ -212,7 +223,9 @@ class GraphsFrame(tk.Toplevel):
         self.print_to_log(str(country_correlation))
 
     def densityVsGrowthRate(self):
-        data = pd.read_csv("world_population.csv")
+        csv_file = "world_population.csv"
+        file_path = self.resource_path(csv_file)
+        data = pd.read_csv(file_path)
         df = pd.DataFrame(data)
         correlation = df[['Growth Rate', 'Density (per km)']].corr()
         self.print_to_log(str(correlation))
@@ -227,7 +240,9 @@ class GraphsFrame(tk.Toplevel):
         self.print_to_log(str(correlation))
 
     def areaVsPopDensity(self):
-        data = pd.read_csv("world_population.csv")
+        csv_file = "world_population.csv"
+        file_path = self.resource_path(csv_file)
+        data = pd.read_csv(file_path)
         df = pd.DataFrame(data)
         filtered_data = df[(df['Density (per km)'] < 1188.5926) & (df['Area (km)'] < 7692024)]
         correlation = df[['Density (per km)', 'Area (km)']].corr()
@@ -237,7 +252,9 @@ class GraphsFrame(tk.Toplevel):
         plt.show()
 
     def popAndRegression(self):
-        data = pd.read_csv("world_population.csv")
+        csv_file = "world_population.csv"
+        file_path = self.resource_path(csv_file)
+        data = pd.read_csv(file_path)
         df = pd.DataFrame(data)
 
         recent_years = ["2022 Population"]
@@ -284,7 +301,9 @@ class GraphsFrame(tk.Toplevel):
         self.print_to_log(f'Intercept: {intercept:.2f}')
 
     def popPerContinent(self):
-        data = pd.read_csv("world_population.csv")
+        csv_file = "world_population.csv"
+        file_path = self.resource_path(csv_file)
+        data = pd.read_csv(file_path)
         df = pd.DataFrame(data)
 
         filtered_data = df[df['1970 Population'] < 557501301]
@@ -313,3 +332,15 @@ class GraphsFrame(tk.Toplevel):
 
         plt.tight_layout()
         plt.show()
+
+    @staticmethod
+    def resource_path(relative_path):
+        # Handle resource paths for bundled applications
+        if getattr(sys, 'frozen', False):
+            # Running in a bundle (PyInstaller)
+            base_path = sys._MEIPASS
+        else:
+            # Running as a script
+            base_path = os.path.abspath(".")
+
+        return os.path.join(base_path, relative_path)
