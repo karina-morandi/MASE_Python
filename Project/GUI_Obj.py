@@ -7,6 +7,7 @@ from ImagesFrame_Obj import ImagesFrame
 from GraphsFrame_Obj import GraphsFrame
 from MapFrame_Obj import MapsFrame
 
+
 class AppGUI(tk.Frame):
     def __init__(self, master, title):
         tk.Frame.__init__(self, master)
@@ -35,7 +36,8 @@ class AppGUI(tk.Frame):
 
         self.ComicF1 = font.Font(family="Calibri", size=16, weight="normal")
         self.ComicF3 = font.Font(family="Calibri", size=12, weight="normal")
-        self.l1 = tk.Label(master, text="Main Window", font=self.ComicF1).grid(row=0,column=0,columnspan=2, sticky=tk.N + tk.S + tk.E + tk.W)
+        tk.Label(master, text="Main Window", font=self.ComicF1).grid(row=0, column=0, columnspan=2,
+                                                                     sticky=tk.N + tk.S + tk.E + tk.W)
 
         self.info = tk.Button(left_frame, text="Tables", command=self.showTables, font=self.ComicF3)
         self.info.grid(row=1, column=0, sticky=N + S + E + W, padx=5, pady=5)
@@ -63,6 +65,7 @@ class AppGUI(tk.Frame):
     def show_main_window(self):
         self.update()
         self.show()
+
     def show(self):
         self.master.update()
         self.master.deiconify()
